@@ -1,0 +1,12 @@
+<odoo>
+    <record id="view_vendor_bill_tree_inherit" model="ir.ui.view">
+        <field name="name">account.move.vendor.bill.tree.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="is_free_journal"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

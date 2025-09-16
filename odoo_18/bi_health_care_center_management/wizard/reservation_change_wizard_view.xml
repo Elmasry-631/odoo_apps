@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+        <record id="reservation_change_wizard_form" model="ir.ui.view">
+            <field name="name">Reservation Change Wizard</field>
+            <field name="model">reservation.change.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="new_start_date"/>
+                        <field name="new_end_date"/>
+                        <field name="new_trainer_id"/>
+                    </group>
+                    <footer>
+                        <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

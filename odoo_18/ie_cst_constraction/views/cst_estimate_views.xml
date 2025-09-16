@@ -1,0 +1,96 @@
+<odoo>
+    <!-- list View -->
+    <record id="view_estimate_list" model="ir.ui.view">
+        <field name="name">ie.cst.estimate.list</field>
+        <field name="model">ie.cst.estimate</field>
+        <field name="arch" type="xml">
+            <list string="Project Estimates">
+                <field name="item"/>
+                <field name="activity"/>
+<!--                <field name="progress"/>-->
+                <field name="begin_in"/>
+                <field name="end_in"/>
+                <field name="subcontractor"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_estimate_form" model="ir.ui.view">
+        <field name="name">ie.cst.estimate.form</field>
+        <field name="model">ie.cst.estimate</field>
+        <field name="arch" type="xml">
+            <form string="Project Estimate">
+                <sheet>
+                    <group>
+
+                    <group>
+                        <field name="item"/>
+                        <field name="activity"/>
+<!--                        <field name="progress"/>-->
+                    </group>
+                    <group>
+<!--                        <field name="material" widget="many2many_tags"/>-->
+<!--                        <field name="equipment" widget="many2many_tags"/>-->
+<!--                        <field name="employee_name" widget="many2many_tags"/>-->
+                    </group>
+                    <group>
+                        <field name="plan_time"/>
+                        <field name="begin_in"/>
+                        <field name="end_in"/>
+                        <field name="dependence"/>
+                        <field name="dependence2"/>
+                        <field name="subcontractor"/>
+                    </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_estimate_kanban" model="ir.ui.view">
+        <field name="name">ie.cst.estimate.kanban</field>
+        <field name="model">ie.cst.estimate</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                <field name="item"/>
+                <field name="activity"/>
+<!--                <field name="progress"/>-->
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <strong><field name="item"/></strong>
+                            <div><field name="activity"/></div>
+<!--                            <div><field name="progress"/></div>-->
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_estimate_calendar" model="ir.ui.view">
+        <field name="name">ie.cst.estimate.calendar</field>
+        <field name="model">ie.cst.estimate</field>
+        <field name="arch" type="xml">
+            <calendar string="Estimates Calendar" date_start="begin_in" date_stop="end_in">
+                <field name="item"/>
+                <field name="activity"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_estimate" model="ir.actions.act_window">
+        <field name="name">Project Estimates</field>
+        <field name="res_model">ie.cst.estimate</field>
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_estimate_root" name="Construction" sequence="10"/>
+    <menuitem id="menu_estimate" name="Estimates" parent="menu_estimate_root" action="action_estimate"/>
+</odoo>

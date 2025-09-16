@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_estimate_manager,access_estimate_manager,model_ie_cst_estimate,base.group_system,1,1,1,1
+access_estimate_user,access_estimate_user,model_ie_cst_estimate,base.group_user,1,1,1,0
+access_equipment_manager,access_equipment_manager,model_ie_cst_equipment,base.group_system,1,1,1,1
+access_equipment_user,access_equipment_user,model_ie_cst_equipment,base.group_user,1,1,1,0

@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_nurse_reservation_report_wizard_form" model="ir.ui.view">
+        <field name="name">nurse.reservation.report.wizard.form</field>
+        <field name="model">nurse.reservation.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Nurse Visit Report Filter">
+                <group>
+                    <field name="trainer_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button name="action_print_report" type="object" string="Print Report" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_nurse_reservation_report_wizard"
+                name="Nurse Visit Report"
+                res_model="nurse.reservation.report.wizard"
+                view_mode="form"
+                target="new"/>
+</odoo>

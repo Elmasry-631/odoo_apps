@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+
+        <record id="student_admission_search_view" model="ir.ui.view">
+            <field name="name">student.admission.search</field>
+            <field name="model">student.admission</field>
+            <field name="arch" type="xml">
+                <search string="Student Reservations">
+                    <!-- Filters -->
+                    <filter string="New" name="yet_to_come" domain="[('state', '=', 'new')]"/>
+                    <filter string="Enrolled" name="today" domain="[('state', '=', 'enrolled')]"/>
+                    <filter string="Student" name="finished" domain="[('state', '=', 'student')]"/>
+                    <filter string="Canceled" name="finished" domain="[('state', '=', 'cancel')]"/>
+
+                    <separator/>
+
+                    <!-- Searchable Fields -->
+                    <field name="name" string="Name"/>
+                    <field name="student_id" string="Client" operator="child_of"/>
+                    <field name="trainer_id" string="Nurse"/>
+                    <!--                    <field name="sport_id" string="Sport Name"/>-->
+
+                    <separator/>
+
+                    <!-- Group By -->
+                    <group expand="1" string="Group By">
+
+                        <filter string="Name" name="group_by_name" context="{'group_by': 'name'}"/>
+                        <filter string="Client" name="group_by_student" context="{'group_by': 'student_id'}"/>
+                        <filter string="Nurse" name="group_by_trainer" context="{'group_by': 'trainer_id'}"/>
+                        <!--                        <filter string="Sport Name" name="group_by_sport" context="{'group_by': 'sport_id'}"/>-->
+                        <filter string="State" name="group_by_state" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="student_admission_view_tree" model="ir.ui.view">
+            <field name="name">student.admission.list</field>
+            <field name="model">student.admission</field>
+            <field name="type">list</field>
+            <field name="arch" type="xml">
+                <list string="Student Admissions" decoration-danger="is_admission_finished"
+                      decoration-warning="is_warning">
+                    <field name="name"/>
+                    <field name="student_id"/>
+                    <field name="mobile" optional="show"/>
+                    <field name="email" optional="show"/>
+                    <!--                    <field name="sport_id"/>-->
+                    <field name="trainer_id" optional="show"/>
+                    <field name="driver_id" optional="show"/>
+                    <!--                    <field name="level_id" optional="show"/>-->
+                    <!--                    <field name="c_level_id"/>-->
+                    <field name="start_duration" optional="show"/>
+                    <field name="end_duration" optional="show"/>
+                    <field name="state" widget="badge" decoration-warning="state == 'enrolled'"
+                           decoration-primary="state == 'new'" decoration-success="state == 'student'" optional="show"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="student_admission_view_form" model="ir.ui.view">
+            <field name="name">student.admission.view.form</field>
+            <field name="model">student.admission</field>
+            <field name="arch" type="xml">
+                <form string="Client" >
+                    <header>
+<!--                        duplicate="0"-->
+                        <button string="Submit" name="action_enroll" invisible="state != 'new'" type="object"
+                                confirm="Are you sure ? Submitting cant be undone."
+                                class="oe_highlight"/>
+
+                        <button string="Register a client" name="action_make_student"
+                                invisible="state != 'enrolled' or not is_reservation_done"
+                                type="object" class="oe_highlight"/>
+
+                        <button name="action_create_reservation"
+                                string="Create Reservation"
+                                type="object"
+                                class="btn-warning"
+                                invisible="state != 'enrolled' or is_reservation_done"
+                        />
+                        <button name="action_create_driver_reservation"
+                                string="Create Driver Reservation"
+                                type="object"
+                                class="btn-warning"
+                                invisible="state != 'enrolled' or is_driver_reservation_done"
+                        />
+                        <button string="Cancel" name="action_cancel" type="object"
+                                invisible="1"/>
+                        <field name="state" widget="statusbar"/>
+
+
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="action_view_invoice" class="oe_stat_button"
+                                    icon="fa-pencil-square-o" invisible="is_invoiced == False">
+                                <field name='is_invoiced' invisible="1"/>
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Invoice</span>
+                                </div>
+                            </button>
+
+                            <button type="object" name="action_view_reservations" class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                                <field name="n_of_reservations_done" widget="statinfo" string="Nurse Reservations"/>
+                            </button>
+
+                            <button type="object" name="action_view_reservations_driver" class="oe_stat_button"
+                                    icon="fa-pencil-square-o">
+                                <field name="n_of_reservations_done_driver" widget="statinfo"
+                                       string="Driver Reservations"/>
+                            </button>
+                        </div>
+
+
+                        <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group string="Personal Details">
+                                <field name="student_id" widget="res_partner_many2one"
+
+                                       readonly="state in ['cancel', 'student','enrolled']"
+                                       context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True, 'default_is_student': False}"
+                                       options='{"always_reload": True}'/>
+                                <field name="mobile" widget="phone" required="1"
+                                       readonly="state in ['cancel', 'student']"/>
+                                <field name="email" widget="email" required="1"/>
+                                <!--                                <field name="p_name" invisible="check_parent == True"/>-->
+                                <!--                                <field name="parent_mobile" widget="phone" invisible="check_parent == True"/>-->
+                                <!--                                <field name="p1_name" invisible="check_parent == False"/>-->
+                                <!--                                <field name="parent1_mobile" widget="phone" invisible="check_parent == False"/>-->
+                                <field name="check_parent" invisible="1"/>
+                                <field name="check_register" invisible="1" readonly="1"/>
+                                <!--                                <field name="birth_date"/>-->
+                                <!--                                <field name="age"/>-->
+                            </group>
+
+
+                            <group string="Registration Details">
+                                <!--                                <field name="sport_id" options="{'no_create_edit': True, 'no_create': True}"-->
+                                <!--                                       readonly="state in ['cancel', 'student']"/>-->
+                                <!--                                <field name="level_id" options="{'no_create_edit': True, 'no_create': True}"-->
+                                <!--                                       readonly="state in ['cancel','student','enrolled']"/>-->
+                                <field name="nurse_specialty_id"
+                                       readonly="state in ['cancel','student','enrolled']"
+                                       options="{'no_create_edit': True, 'no_create': True}"
+                                />
+
+
+                                <field name="trainer_id"
+                                       options="{'no_create_edit': True, 'no_create': True}"
+                                       required="1"
+                                       readonly="state in ['cancel','student','enrolled']"/>
+
+                                <field name="package_id"
+                                       required="1"
+                                       readonly="state in ['cancel','student','enrolled']"/>
+
+                                <field name="package_line_id"
+                                       required="1"
+                                       readonly="state in ['cancel','student','enrolled']"/>
+
+                                <!--                                <field name="n_of_reservations_unfinished"/>-->
+
+                            </group>
+
+                            <group string="Reservation Details">
+
+                                <field name="weekday_ids" widget="many2many_tags"
+                                       readonly="state in ['cancel','student','enrolled']"
+                                       invisible="1"
+                                />
+                                <!--                                    <field name="day_one" readonly="state in ['cancel','student','enrolled']"/>-->
+                                <!--                                    <field name="day_two" readonly="state in ['cancel','student','enrolled']"/>-->
+
+                                <label for="start_date" string="Reservation Time"/>
+                                <div class="w-100">
+                                    <div class="o_row">
+                                        <field name="start_date" required="1"
+                                               readonly="state in ['cancel','student','enrolled']"
+                                               widget="float_time"
+                                               string="Reservation Time"
+                                        />
+
+                                        <i class="fa fa-long-arrow-right mx-2 oe_edit_only"
+                                           aria-label="Arrow icon"
+                                           title="Arrow"/>
+
+                                        <field name="end_date" required="1"
+                                               readonly="state in ['cancel','student','enrolled']"
+                                               widget="float_time"
+
+                                        />
+                                    </div>
+                                </div>
+                                <label for="start_duration" string="Duration"/>
+                                <div class="w-100">
+                                    <div class="o_row">
+                                        <field name="start_duration" widget="daterange" required="1"
+                                               options="{'related_end_date': 'end_duration'}"
+                                               readonly="state in ['cancel','student','enrolled']"
+                                               force_save="1"
+                                        />
+                                        <i class="fa fa-long-arrow-right mx-2 oe_edit_only" aria-label="Arrow icon"
+                                           title="Arrow"/>
+                                        <field name="end_duration" widget="daterange" required="1"
+                                               options="{'related_start_date': 'start_duration'}"
+                                               readonly="1"
+                                               force_save="1"
+                                        />
+                                    </div>
+                                </div>
+
+                                <field name="n_of_reservations" readonly="1" force_save="1" string="Number Of Days"/>
+
+
+                                <field name="duration" invisible="1"/>
+                                <!--                                <field name="is_vip"-->
+                                <!--                                       widget="boolean_toggle"-->
+                                <!--                                       readonly="state in ['cancel','student','enrolled']"/>-->
+
+                            </group>
+                            <group string="Driver Details">
+                                <field name="driver_id" required="1"
+                                       readonly="state in ['cancel','student','enrolled']"
+                                       options="{'no_create_edit': True, 'no_create': True}"
+                                />
+
+                                <field name="city_distance_id" required="1"
+                                       readonly="state in ['cancel','student','enrolled']"
+                                       options="{'no_create_edit': True, 'no_create': True}"
+                                />
+
+                            </group>
+                            <group name="disability" string="Disability">
+                                <field name="is_disability"/>
+                            </group>
+                        </group>
+                        <field name="disability_description" placeholder="Describe disability..."
+                               invisible="is_disability == False"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <record id="student_partner_view_tree" model="ir.ui.view">
+            <field name="name">student.partner.list</field>
+            <field name="model">res.partner</field>
+            <field name="type">list</field>
+            <field name="arch" type="xml">
+                <list string="Students" decoration-warning="is_warning" decoration-danger="is_admission_finished">
+                    <field name="name"/>
+                    <field name="trainer_id" string="Nurse"/>
+                    <field name="admission_id"/>
+                    <field name="admission_end_date"/>
+                    <!--                    <field name="level_id"/>-->
+                    <field name="n_of_reservations" optional="hide"/>
+                    <field name="n_of_reservations_unfinished" optional="hide"/>
+                    <field name="mobile" optional="hide"/>
+                    <field name="is_warning" column_invisible="1"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="action_student_admission" model="ir.actions.act_window">
+            <field name="name">Client Registration</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">student.admission</field>
+            <field name="view_mode">list,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add a new Client.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_partner_student" model="ir.actions.act_window">
+            <field name="name">Client</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">list,kanban,form</field>
+            <field name="view_ids"
+                   eval="[(5, 0, 0),
+               (0, 0, {'view_mode': 'list', 'view_id': ref('student_partner_view_tree')}),
+               (0, 0, {'view_mode': 'kanban', 'view_id': ref('base.res_partner_kanban_view')})
+
+
+               ]"
+            />
+
+
+            <field name="domain">[('is_student', '=', True)]</field>
+            <field name="context">{'default_is_student': True, 'create': False}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add a new Client.
+                </p>
+            </field>
+        </record>
+
+
+        <record id="action_sport_product_equipment" model="ir.actions.act_window">
+            <field name="name">Equipments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="domain">[('is_equipment', '=', True)]</field>
+            <field name="context">{'default_is_equipment': True, 'default_detailed_type': 'product'}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click here to add a new Sports equipments.
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="student_admission_main_menu" name="Health Care Management Center" sequence="20"
+                  web_icon="bi_health_care_center_management,static/description/icon.png">
+            <menuitem id="student_admission_menu" name="Admission" sequence="20">
+                <menuitem id="admission_student_menu" name="Registrations" sequence="10"
+                          action="action_student_admission"/>
+            </menuitem>
+            <menuitem id="student_admission_menu" name="Admission" sequence="30">
+                <menuitem id="partner_student_menu_sub" name="Clients" sequence="20" action="action_partner_student"/>
+            </menuitem>
+            <!--            <menuitem id="student_sport_menu" name="Sports" sequence="40">-->
+
+
+            <!--            </menuitem>-->
+        </menuitem>
+
+
+    </data>
+</odoo>

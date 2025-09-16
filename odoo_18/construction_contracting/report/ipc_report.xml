@@ -1,0 +1,67 @@
+<odoo>
+  <report
+    id="report_construction_ipc"
+    model="construction.ipc"
+    string="شهادة المستخلص (IPC)"
+    report_type="qweb-pdf"
+    name="construction_contracting.report_construction_ipc"
+    file="construction_contracting.report_construction_ipc"
+    print_report_name="'IPC - %s' % (object.name)"
+  />
+
+  <template id="report_construction_ipc">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <div class="page">
+          <h2>شهادة المستخلص (IPC)</h2>
+          <p><strong>المستخلص:</strong> <t t-esc="doc.name"/></p>
+          <p><strong>المشروع:</strong> <t t-esc="doc.project_id.display_name"/></p>
+          <p><strong>الفترة:</strong> <t t-esc="doc.period_start"/> — <t t-esc="doc.period_end"/></p>
+          <h4>تفاصيل BOQ</h4>
+          <table class="table table-sm">
+            <thead>
+              <tr><th>الوصف</th><th>الوحدة</th><th>كمية</th><th>سعر</th><th>قيمة</th></tr>
+            </thead>
+            <tbody>
+              <t t-foreach="doc.line_ids" t-as="l">
+                <tr>
+                  <td><t t-esc="l.description"/></td>
+                  <td><t t-esc="l.uom_id.name"/></td>
+                  <td class="text-end"><t t-esc="l.qty_this_period"/></td>
+                  <td class="text-end"><t t-esc="l.rate"/></td>
+                  <td class="text-end"><t t-esc="l.amount_this_period"/></td>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+          <h4>Dayworks</h4>
+          <table class="table table-sm">
+            <thead>
+              <tr><th>الفئة</th><th>المورد</th><th>ساعات/أيام</th><th>سعر</th><th>قيمة</th></tr>
+            </thead>
+            <tbody>
+              <t t-foreach="doc.daywork_ids" t-as="d">
+                <tr>
+                  <td><t t-esc="d.category"/></td>
+                  <td><t t-esc="d.resource_ref"/></td>
+                  <td class="text-end"><t t-esc="d.hours_or_days"/></td>
+                  <td class="text-end"><t t-esc="d.unit_rate"/></td>
+                  <td class="text-end"><t t-esc="d.amount"/></td>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+          <h4>الإجماليات (قبل الضريبة)</h4>
+          <ul>
+            <li>BOQ: <t t-esc="doc.amount_boq_this_period"/></li>
+            <li>Dayworks: <t t-esc="doc.amount_dayworks"/></li>
+            <li>Retention: <t t-esc="doc.retention_amount"/></li>
+            <li>Advance Recovery: <t t-esc="doc.advance_recovery_amount"/></li>
+            <li>LDs: <t t-esc="doc.ld_amount"/></li>
+            <li><strong>الإجمالي قبل الضريبة:</strong> <t t-esc="doc.gross_before_tax"/></li>
+          </ul>
+        </div>
+      </t>
+    </t>
+  </template>
+</odoo>

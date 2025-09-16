@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="menu_equipment_rental_root" name="Equipment Rental" sequence="10"/>
+
+    <menuitem id="menu_equipment_root" name="Equipments"
+              parent="menu_equipment_rental_root" sequence="20"
+              action="action_equipment_equipment"/>
+
+    <menuitem id="menu_rental_root" name="Rental Contracts"
+              parent="menu_equipment_rental_root" sequence="30"
+              action="action_equipment_rental"/>
+</odoo>

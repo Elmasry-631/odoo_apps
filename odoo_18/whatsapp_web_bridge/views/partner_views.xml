@@ -1,0 +1,18 @@
+<odoo>
+    <record id="view_partner_form_inherit_whatsapp" model="ir.ui.view">
+        <field name="name">res.partner.form.whatsapp</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <!-- نضيف زر جديد داخل الـ button box -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_send_whatsapp"
+                        type="object"
+                        string="WhatsApp"
+                        class="oe_stat_button btn-primary"
+                        icon="fa-whatsapp"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,167 @@
+<odoo>
+    <!-- Report Action -->
+    <record id="action_report_stock_movement" model="ir.actions.report">
+        <field name="name">Stock Movement Report</field>
+        <field name="model">stock.movement.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">stock_movement_report.stock_movement_report_template</field>
+        <field name="report_file">stock_movement_report.stock_movement_report_template</field>
+        <field name="print_report_name">'Stock Movement Report'</field>
+    </record>
+
+    <!-- QWeb Template -->
+    <template id="stock_movement_report_template">
+        <t t-call="web.html_container">
+                <style>
+                    body {
+                        font-size: 12px;
+                        color: #222;
+                    }
+                    .page {
+                        padding: 20px;
+                        background-color: #f4f6f8;
+                    }
+                    h2.report-title {
+                        text-align: center;
+                        font-weight: 700;
+                        font-size: 26px;
+                        margin-bottom: 15px;
+                        color: #ff5e78;
+                        text-transform: uppercase;
+                        letter-spacing: 1.2px;
+                        text-shadow: 1px 1px #ccc;
+                    }
+                    .report-info {
+                        margin-bottom: 20px;
+                        font-size: 14px;
+                        color: #555;
+                    }
+                    .report-info strong {
+                        color: #ff5e78;
+                    }
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin-top: 10px;
+                        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                    }
+                    th, td {
+                        border: 1px solid #ccc;
+                        padding: 8px;
+                        font-size: 12px;
+                        text-align: center;
+                    }
+                    th {
+                        background: #ff5e78;
+                        color: #fff;
+                        font-weight: 600;
+                        font-size: 13px;
+                    }
+                    tr:nth-child(even) td {
+                        background-color: #f0f2f5;
+                    }
+                    tr.opening-row td {
+                        background-color: #2ecc71;
+                        color: #fff;
+                        font-weight: bold;
+                    }
+                    tr.closing-row td {
+                        background-color: #ff6b81;
+                        color: #fff;
+                        font-weight: bold;
+                    }
+                    .product-name {
+                        font-size: 16px;
+                        font-weight: 600;
+                        color: #6a11cb;
+                        margin-top: 15px;
+                        margin-bottom: 5px;
+                    }
+                    .in-icon {
+                        color: #27ae60;
+                        font-weight: bold;
+                    }
+                    .out-icon {
+                        color: #c0392b;
+                        font-weight: bold;
+                    }
+                </style>
+                <div class="page">
+                    <h2 class="report-title">Stock Movement Report</h2>
+
+                    <div class="report-info">
+                        <p><strong>Company:</strong> <span t-esc="data['company_name']"/></p>
+                        <p><strong>From:</strong> <span t-esc="data['date_from']"/></p>
+                        <p><strong>To:</strong> <span t-esc="data['date_to']"/></p>
+                    </div>
+
+                    <t t-foreach="docs" t-as="doc">
+                        <div class="product-name">
+                            Product: <span t-esc="doc.get('product_name') or ''"/>
+                        </div>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Reference</th>
+                                    <th>MTNO</th>
+                                    <th>In Qty</th>
+                                    <th>Out Qty</th>
+                                    <th>Balance Qty</th>
+                                    <th>UoM</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-if="doc.get('opening_qty') or doc.get('opening_total')">
+                                    <tr>
+                                        <td colspan="9" style="padding:0;">
+                                            <div style="width:100%; background-color:#2ecc71; color:#fff; font-weight:bold; text-align:center; padding:4px 0;">
+                                                Opening Balance - Qty: <t t-esc="doc.get('opening_qty')"/> - Total: <t t-esc="doc.get('opening_total')"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="9" style="padding:0;">
+                                            <div style="width:100%; background-color:#ff6b81; color:#fff; font-weight:bold; text-align:center; padding:4px 0;">
+                                                Closing Balance - Qty: <t t-esc="doc.get('closing_qty')"/> - Total: <t t-esc="doc.get('closing_total')"/>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </t>
+
+                                <t t-set="row_index" t-value="0"/>
+                                <t t-foreach="doc.get('lines')" t-as="line">
+                                    <tr t-att-class="row_index % 2 == 1 and 'alt-row' or ''">
+                                        <td><t t-esc="line.get('date')"/></td>
+                                        <td><t t-esc="line.get('reference')"/></td>
+                                        <td><t t-esc="line.get('mtno_field') or '-'"/></td>
+                                        <td>
+                                            <t t-if="line.get('in_qty') &gt; 0">
+                                                <span class="in-icon">🟢</span> <t t-esc="line.get('in_qty')"/>
+                                            </t>
+                                        </td>
+                                        <td>
+                                            <t t-if="line.get('out_qty') &gt; 0">
+                                                <span class="out-icon">🔴</span> <t t-esc="line.get('out_qty')"/>
+                                            </t>
+                                        </td>
+                                        <td><t t-esc="line.get('bal_qty')"/></td>
+                                        <td><t t-esc="line.get('uom')"/></td>
+                                        <td><t t-esc="line.get('price')"/></td>
+                                        <td><t t-esc="line.get('total')"/></td>
+                                    </tr>
+                                    <t t-set="row_index" t-value="row_index + 1"/>
+                                </t>
+                            </tbody>
+                        </table>
+                        <br/>
+                    </t>
+                </div>
+            </t>
+
+    </template>
+</odoo>

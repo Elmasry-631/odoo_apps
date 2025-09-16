@@ -1,0 +1,14 @@
+<odoo>
+    <data noupdate="0">
+        <record id="ir_cron_update_driver_reservation_states" model="ir.cron">
+            <field name="name">Update Driver Reservation States</field>
+            <field name="model_id" ref="model_driver_reservation"/>
+            <field name="state">code</field>
+            <field name="code">model.update_driver_reservation_states()</field>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="active">True</field>
+        </record>
+
+    </data>
+</odoo>

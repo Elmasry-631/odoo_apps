@@ -1,0 +1,91 @@
+<odoo>
+    <record id="action_report_stock_movement" model="ir.actions.report">
+        <field name="name">Stock Movement Report</field>
+        <field name="model">stock.movement.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">stock_valuation_report_ex.stock_movement_report_template</field>
+        <field name="report_file">stock_valuation_report_ex.stock_movement_report_template</field>
+        <field name="print_report_name">'Stock Movement - %s' % (object.date_to)</field>
+    </record>
+
+    <template id="stock_movement_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 class="text-center">Stock Movement Report</h2>
+
+                    <div class="row mt-4 mb-2">
+                        <div class="col-6">
+                            <strong>Date From:</strong> <span t-esc="data.get('date_from')" t-options='{"widget": "date"}'/>
+                        </div>
+                        <div class="col-6">
+                            <strong>Date To:</strong> <span t-esc="data.get('date_to')" t-options='{"widget": "date"}'/>
+                        </div>
+                    </div>
+
+                    <t t-foreach="records" t-as="record">
+                        <h3 class="mt-4" style="border-bottom: 1px solid black; padding-bottom: 5px;">
+                            Product: <span t-esc="record.get('product').name"/>
+                            [<span t-esc="record.get('product').default_code"/>]
+                        </h3>
+
+                        <table class="table table-sm table-bordered mt-2">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th style="width: 12%;">Date</th>
+                                    <th>Movement Type / Reference</th>
+                                    <th class="text-center" style="width: 10%;">MTNO</th>
+                                    <th class="text-right" style="width: 10%;">In Qty</th>
+                                    <th class="text-right" style="width: 10%;">Out Qty</th>
+                                    <th class="text-right" style="width: 10%;">Unit Price</th>
+                                    <th class="text-right" style="width: 12%;">Balance Qty</th>
+                                    <th class="text-right" style="width: 15%;">Balance Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="record.get('lines')" t-as="line">
+                                    <tr t-att-class="'font-weight-bold bg-light' if line.get('is_balance') else ''">
+                                        <td>
+                                            <span t-esc="line.get('date')" t-options='{"widget": "date"}'/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="line.get('movement_type')"/>
+                                            <t t-if="line.get('reference')">
+                                                (<span t-esc="line.get('reference')"/>)
+                                            </t>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="line.get('mtno_field')"/>
+                                        </td>
+                                        <t t-if="not line.get('is_balance')">
+                                            <td class="text-right">
+                                                <span t-if="line.get('in_qty')" t-esc="line.get('in_qty')" t-options="{'widget': 'float', 'precision': 2}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-if="line.get('out_qty')" t-esc="line.get('out_qty')" t-options="{'widget': 'float', 'precision': 2}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="line.get('unit_price')" t-options="{'widget': 'monetary', 'display_currency': company_currency}"/>
+                                            </td>
+                                        </t>
+                                        <t t-else="">
+                                            <td colspan="3"/>
+                                        </t>
+                                        <td class="text-right">
+                                            <span t-esc="line.get('bal_qty')" t-options="{'widget': 'float', 'precision': 2}"/>
+                                            <span t-esc="line.get('bal_uom')"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="line.get('bal_total')" t-options="{'widget': 'monetary', 'display_currency': company_currency}"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

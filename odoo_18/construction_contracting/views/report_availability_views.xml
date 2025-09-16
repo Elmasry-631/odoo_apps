@@ -1,0 +1,16 @@
+<odoo>
+  <record id="action_report_material_availability" model="ir.actions.act_window">
+    <field name="name">توفّر المواد</field>
+    <field name="res_model">stock.quant</field>
+    <field name="view_mode">pivot,graph,list</field>
+    <field name="domain">[('location_id.usage','=','internal')]</field>
+    <field name="context">
+      {
+        'pivot_measures': ['quantity', 'reserved_quantity'],
+        'search_default_internal_loc': 1
+      }
+    </field>
+  </record>
+
+
+</odoo>

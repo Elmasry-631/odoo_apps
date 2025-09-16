@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record model="ir.ui.view" id="level_level_view_tree">
+        <field name="name">level.view.list</field>
+        <field name="model">level.level</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list string="Levels">
+                <field name="name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="level_level_view_form" model="ir.ui.view">
+        <field name="name">level.view.form</field>
+        <field name="model">level.level</field>
+        <field name="arch" type="xml">
+            <form string="Student Inquiry">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_level" model="ir.actions.act_window">
+        <field name="name">Levels</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">level.level</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to add a new level.
+            </p>
+        </field>
+    </record>
+<!--    <menuitem id="level_menu" name="Levels" parent="bi_health_care_center_management.student_sport_menu" sequence="5"-->
+<!--              action="action_level"/>-->
+
+
+</odoo>

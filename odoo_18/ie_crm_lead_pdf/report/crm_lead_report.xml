@@ -1,0 +1,15 @@
+<odoo>
+    <data>
+        <record id="action_report_crm_lead" model="ir.actions.report">
+            <field name="name">Lead Report</field>
+            <field name="model">crm.lead</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">ie_crm_lead_pdf.crm_lead_template</field>
+            <field name="report_file">ie_crm_lead_pdf.crm_lead_template</field>
+            <!-- أهم حاجتين عشان يظهر الزرار -->
+            <field name="binding_model_id" ref="crm.model_crm_lead"/>
+            <field name="binding_type">report</field>
+            <field name="print_report_name">'Lead - %s' % (object.name)</field>
+        </record>
+    </data>
+</odoo>

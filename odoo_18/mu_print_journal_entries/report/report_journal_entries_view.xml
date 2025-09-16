@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="mu_template_journal_report">
+            <t t-call="web.external_layout">
+                <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
+                <div class="page" style="font-family: 'Lato', sans-serif;">
+
+                    <style>
+                        thead { display: table-header-group; }
+                        tfoot { display: table-footer-group; }
+                        tr { page-break-inside: avoid; }
+                    </style>
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <h2 style="font-size: 28px; color: #1a237e; border-bottom: 3px solid #1a237e; padding-bottom: 10px;">
+                            Journal Entry
+                        </h2>
+                    </div>
+
+                    <!-- Info Cards -->
+                    <div class="row mb-4" style="font-size: 15px;">
+                        <div class="col-6">
+                            <div class="p-3" style="border-radius: 10px; background-color: #f9f9f9;">
+                                <t t-if="o.name">
+                                    <p><strong style="color:#1a237e;">Ref.#:</strong> <span t-field="o.name"/></p>
+                                </t>
+                                <t t-if="o.partner_id">
+                                    <p><strong style="color:#1a237e;">Vendor:</strong> <span t-field="o.partner_id"/></p>
+                                </t>
+                                <t t-if="o.date">
+                                    <p><strong style="color:#1a237e;">Date:</strong> <span t-field="o.date"/></p>
+                                </t>
+                                <t t-if="o.currency_id">
+                                    <t t-set="egp_currency" t-value="env.ref('base.EGP')"/>
+                                    <t t-set="company_currency" t-value="o.company_id.currency_id"/>
+                                    <t t-set="egp_rate" t-value="egp_currency._get_conversion_rate(egp_currency, company_currency, o.company_id, o.date)"/>
+                                    <t t-set="rate" t-value="1 / egp_rate"/>
+                                    <p><strong style="color:#1a237e;">Rate:</strong> <span t-esc="rate"/></p>
+                                    <p><strong style="color:#1a237e;">USD per Unit:</strong> <span t-esc="egp_rate"/></p>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-3" style="border-radius: 10px; background-color: #f9f9f9;">
+                                <t t-if="o.journal_id">
+                                    <p><strong style="color:#1a237e;">Journal:</strong> <span t-field="o.journal_id"/></p>
+                                </t>
+                                <t t-if="o.ref">
+                                    <p><strong style="color:#1a237e;">Reference:</strong> <span t-field="o.ref"/></p>
+                                </t>
+                                <t t-if="o.currency_id">
+                                    <p><strong style="color:#1a237e;">Currency:</strong> <span t-field="o.currency_id"/></p>
+                                </t>
+                                <t t-if="o.code_id">
+                                    <p><strong style="color:#1a237e;">Vendor Code:</strong> <span t-field="o.code_id"/></p>
+                                </t>
+                                <t t-if="o.x_studio_patch_no_1">
+                                    <p><strong style="color:#1a237e;">Patch No:</strong> <span t-field="o.x_studio_patch_no_1"/></p>
+<<<<<<< HEAD
+                                </t>
+                                <t t-if="o.x_studio_check_no">
+                                    <p><strong style="color:#1a237e;">Check No:</strong> <span t-field="o.x_studio_check_no"/></p>
+                                </t>
+                                <t t-if="o.x_studio_trfno">
+                                    <p><strong style="color:#1a237e;">TRF No:</strong> <span t-field="o.x_studio_trfno"/></p>
+=======
+>>>>>>> 6d131b2b756d16410b636a9c6ae3296c5bc00107
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Journal Table -->
+                    <t t-set="sequence" t-value="1"/>
+                    <!--                    <div class="table-responsive">-->
+                    <table class="table" style="border-collapse: collapse; width: 100%; font-size: 13px; page-break-inside: auto;">
+                        <thead style="background-color: #1a767e; color: white; display: table-header-group;">
+                            <tr>
+                                <th style="padding: 10px;">#</th>
+                                <th style="padding: 10px;">Account</th>
+                                <th style="padding: 10px;">Partner</th>
+                                <th style="padding: 10px;">Feat</th>
+                                <th style="padding: 10px;">Cost Center</th>
+                                <th style="padding: 10px;">Label</th>
+                                <!--                                    <th style="padding: 10px;">Amount Currency</th>-->
+                                <th style="padding: 10px;" class="text-right">Debit</th>
+                                <th style="padding: 10px;" class="text-right">Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody style="display: table-row-group;">
+                            <t t-set="total_debit" t-value="0.0"/>
+                            <t t-set="total_credit" t-value="0.0"/>
+                            <t t-foreach="o.line_ids" t-as="line">
+                                <tr style="border-bottom: 1px solid #e0e0e0;">
+                                    <td style="padding: 8px;" class="text-center">
+                                        <span t-esc="sequence"/>
+                                        <t t-set="sequence" t-value="sequence + 1"/>
+                                    </td>
+                                    <td style="padding: 8px;"><t t-if="line.account_id"><span t-field="line.account_id"/></t></td>
+                                    <td style="padding: 8px;"><t t-if="line.partner_id"><span t-field="line.partner_id"/></t></td>
+                                    <td style="padding: 8px;"><t t-if="line.x_studio_many2one_field_c7_1iocuc1sk"><span t-field="line.x_studio_many2one_field_c7_1iocuc1sk"/></t></td>
+                                    <td style="padding: 8px;"><t t-if="line.x_studio_cost_center"><span t-field="line.x_studio_cost_center"/></t></td>
+                                    <td style="padding: 8px;"><t t-if="line.name"><span t-field="line.name"/></t></td>
+                                    <!--                                        <td style="padding: 8px;"><t t-if="line.amount_currency"><span t-field="line.amount_currency"/></t></td>-->
+                                    <!--                                        <td style="padding: 8px;" class="text-right"><t t-if="line.debit != 0"><span t-field="line.debit"/></t></td>-->
+                                    <!--                                        <td style="padding: 8px;" class="text-right"><t t-if="line.credit != 0"><span t-field="line.credit"/></t></td>-->
+                                    <!--                                        <td style="padding: 8px;" class="text-right">-->
+                                    <!--                                            <t t-if="line.debit != 0">-->
+                                    <!--                                                <span t-field="line.debit" t-options="{'widget': 'monetary', 'display_currency': line.currency_id or line.company_currency_id}"/>-->
+                                    <!--                                            </t>-->
+                                    <!--                                        </td>-->
+                                    <!--                                        <td style="padding: 8px;" class="text-right">-->
+                                    <!--                                            <t t-if="line.credit != 0">-->
+                                    <!--                                                <span t-field="line.credit" t-options="{'widget': 'monetary', 'display_currency': line.currency_id or line.company_currency_id}"/>-->
+                                    <!--                                            </t>-->
+                                    <!--                                        </td>-->
+                                    <!-- Debit Column -->
+                                    <!-- Debit Column -->
+                                    <td style="padding: 8px;" class="text-right">
+                                        <t t-if="line.debit != 0">
+                                            <t t-if="line.currency_id.name == 'EGP'">
+                                                <span t-esc="abs(line.amount_currency)" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="line.debit" t-options="{'widget': 'monetary', 'display_currency': line.company_currency_id}"/>
+                                            </t>
+                                        </t>
+                                    </td>
+
+
+                                    <!-- Credit Column -->
+                                    <!-- Credit Column -->
+                                    <td style="padding: 8px;" class="text-right">
+                                        <t t-if="line.credit != 0">
+                                            <t t-if="line.currency_id.name == 'EGP'">
+                                                <span t-esc="abs(line.amount_currency)" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span t-field="line.credit" t-options="{'widget': 'monetary', 'display_currency': line.company_currency_id}"/>
+                                            </t>
+                                        </t>
+                                    </td>
+
+
+                                </tr>
+                                <t t-set="total_debit" t-value="total_debit + line.debit"/>
+                                <t t-set="total_credit" t-value="total_credit + line.credit"/>
+                            </t>
+
+                            <!-- Totals -->
+                            <tr style="background-color: #f1f1f1;">
+                                <td colspan="6" class="text-right" style="padding: 10px; font-weight: bold;">Total:</td>
+                                <td class="text-right" style="padding: 10px; color: #1a237e;">
+                                    <strong>
+                                        <span t-esc="sum(line.amount_currency for line in o.line_ids if line.amount_currency and line.amount_currency > 0)"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </strong>
+                                </td>
+
+                                <td class="text-right" style="padding: 10px; color: #1a237e;">
+                                    <strong>
+                                        <span t-esc="sum(abs(line.amount_currency) for line in o.line_ids if line.amount_currency and line.amount_currency &lt; 0)"
+                                              t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                    </strong>
+                                </td>
+
+
+
+
+                                <!--                                    <td class="text-right" style="padding: 10px; color: #1a237e;">-->
+                                <!--    <strong>-->
+                                <!--        <t t-if="o.currency_id.name == 'EGP'">-->
+                                <!--            <span t-esc="sum(abs(line.amount_currency) for line in o.line_ids) / 2"-->
+                                <!--                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+                                <!--        </t>-->
+                                <!--        <t t-else="">-->
+                                <!--            <span t-esc="total_debit"-->
+                                <!--                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+                                <!--        </t>-->
+                                <!--    </strong>-->
+                                <!--</td>-->
+                                <!--<td class="text-right" style="padding: 10px; color: #1a237e;">-->
+                                <!--    <strong>-->
+                                <!--        <t t-if="o.currency_id.name == 'EGP'">-->
+                                <!--            <span t-esc="sum(abs(line.amount_currency) for line in o.line_ids) / 2"-->
+                                <!--                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+                                <!--        </t>-->
+                                <!--        <t t-else="">-->
+                                <!--            <span t-esc="total_credit "-->
+                                <!--                  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>-->
+                                <!--        </t>-->
+                                <!--    </strong>-->
+                                <!--</td>-->
+
+                                <!--                                    <td class="text-right" style="padding: 10px; color: #1a237e;">-->
+                                <!--                                        <strong><span t-esc="total_debit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>-->
+                                <!--                                    </td>-->
+                                <!--                                    <td class="text-right" style="padding: 10px; color: #1a237e;">-->
+                                <!--                                        <strong><span t-esc="total_credit" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/></strong>-->
+                                <!--                                    </td>-->
+                            </tr>
+                            <!-- خط فاصل -->
+                            <!--                            <tr>-->
+                            <!--                                <td colspan="12"><hr/></td>-->
+                            <!--                            </tr>-->
+
+<!--                            &lt;!&ndash; صف التوقيعات العلوي &ndash;&gt;-->
+<!--                            <tr style="background-color:#f1f1f1;">-->
+<!--                                <td colspan="12" style="padding: 10px;">-->
+<!--                                    <table style="width: 100%;">-->
+<!--                                        <tr style="color:black; font-weight: bold; text-align: left;">-->
+<!--                                            <td style="width: 33%;">PREPARED BY:.............................</td>-->
+<!--                                            <td style="width: 33%;">APPROVED BY:.............................</td>-->
+<!--                                            <td style="width: 33%;">APPROVED BY:.............................</td>-->
+<!--                                        </tr>-->
+<!--                                    </table>-->
+<!--                                </td>-->
+<!--                                <td colspan="12" style="padding: 10px;">-->
+<!--                                    <table style="width: 100%;">-->
+<!--                                        <tr style="color:black; font-weight: bold; text-align: right;">-->
+<!--                                            <td style="width: 50%;">DEPUTY FINANCE GENERAL MANAGER:.............................</td>-->
+<!--                                            <td style="width: 50%;">FINANCE GENERAL MANAGER:.............................</td>-->
+<!--                                        </tr>-->
+<!--                                    </table>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+
+                            <!-- خط فاصل -->
+<!--                            <tr>-->
+<!--                                <td colspan="12"><hr/></td>-->
+<!--                            </tr>-->
+
+<!--                            &lt;!&ndash; صف المدراء &ndash;&gt;-->
+<!--                            <tr style="background-color:#f1f1f1;">-->
+<!--                                <td colspan="12" style="padding: 10px;">-->
+<!--                                    <table style="width: 100%;">-->
+<!--                                        <tr style="color:black; font-weight: bold; text-align: right;">-->
+<!--                                            <td style="width: 50%;">DEPUTY FINANCE GENERAL MANAGER:.............................</td>-->
+<!--                                            <td style="width: 50%;">FINANCE GENERAL MANAGER:.............................</td>-->
+<!--                                        </tr>-->
+<!--                                    </table>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+
+                        </tbody>
+                    </table>
+                    <!--                    </div>-->
+
+                    <!-- Signatures -->
+                                        <div class="mt-3" style="font-size: 18px;">
+                                            <p><strong>PREPARED BY: </strong> .............................................................................</p>
+                                            <p><strong>APPROVED BY: </strong> .............................................................................</p>
+                                            <p><strong>APPROVED BY: </strong> .............................................................................</p>
+                                            <p><strong>DEPUTY FINANCE GENERAL MANAGER: </strong> ..........................................................</p>
+                                            <p><strong>FINANCE GENERAL MANAGER: </strong> .................................................................</p>
+                                        </div>
+
+                    <!-- Notes -->
+                    <t t-if="o.narration">
+                        <div class="mt-4" style="background-color: #f9f9f9; padding: 15px; border-radius: 8px;">
+                            <h4 style="color: #1a237e;">Notes</h4>
+                            <p><span t-field="o.narration"/></p>
+                        </div>
+                    </t>
+
+                </div>
+            </t>
+        </template>
+
+        <template id="mu_journal_entry_report_template_id">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="mu_print_journal_entries.mu_template_journal_report" t-lang="o.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

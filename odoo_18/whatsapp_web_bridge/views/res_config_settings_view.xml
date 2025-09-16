@@ -1,0 +1,25 @@
+<odoo>
+<!--    <record id="res_config_settings_view_form_inherit_whatsapp" model="ir.ui.view">-->
+<!--        <field name="name">res.config.settings.whatsapp</field>-->
+<!--        <field name="model">res.config.settings</field>-->
+<!--&lt;!&ndash;        <field name="inherit_id" ref="base.res_config_settings"/>&ndash;&gt;-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//div[@id='settings']" position="inside">-->
+<!--                <div class="app_settings_block" data-string="WhatsApp Web Bridge" string="WhatsApp Web Bridge" >-->
+<!--                    <h2>WhatsApp Web Bridge</h2>-->
+<!--                    <group>-->
+<!--                        <field name="whatsapp_default_country_code"/>-->
+<!--                        <field name="whatsapp_use_wa_me"/>-->
+<!--                    </group>-->
+<!--                    <group string="Templates">-->
+<!--                        <field name="whatsapp_template_invoice" placeholder="Hello {partner_name}, your invoice {doc_name} for {amount_total} is ready."/>-->
+<!--                        <field name="whatsapp_template_sale"/>-->
+<!--                        <field name="whatsapp_template_picking"/>-->
+<!--                        <field name="whatsapp_template_task"/>-->
+<!--                        <field name="whatsapp_template_contact"/>-->
+<!--                    </group>-->
+<!--                </div>-->
+<!--            </xpath>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>

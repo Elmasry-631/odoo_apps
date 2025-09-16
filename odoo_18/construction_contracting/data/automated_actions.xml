@@ -1,0 +1,3 @@
+<field name="code">
+  action = env['construction.ipc']._cron_lock_after_cutoff()
+</field>

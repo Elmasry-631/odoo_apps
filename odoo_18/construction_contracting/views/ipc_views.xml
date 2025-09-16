@@ -1,0 +1,86 @@
+<odoo>
+  <record id="view_construction_ipc_list" model="ir.ui.view">
+    <field name="name">construction.ipc.list</field>
+    <field name="model">construction.ipc</field>
+    <field name="arch" type="xml">
+      <list string="المستخلصات">
+        <field name="name"/>
+        <field name="project_id"/>
+<!--        <field name="contract_id"/>-->
+        <field name="period_start"/>
+        <field name="period_end"/>
+        <field name="state"/>
+        <field name="gross_before_tax"/>
+        <button name="action_approve" string="اعتماد" type="object" class="btn-primary" invisible = "state != 'draft'"/>
+        <button name="action_make_invoice" string="إنشاء فاتورة" type="object" class="btn-secondary" invisible = "state != 'approved'"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_construction_ipc_form" model="ir.ui.view">
+    <field name="name">construction.ipc.form</field>
+    <field name="model">construction.ipc</field>
+    <field name="arch" type="xml">
+      <form string="المستخلص">
+        <header>
+          <button name="action_approve" string="اعتماد" type="object" class="oe_highlight" invisible = "state != 'draft'"/>
+          <button name="action_make_invoice" string="إنشاء فاتورة" type="object" class="btn-primary" invisible = "state != 'approved'"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,approved,invoiced"/>
+        </header>
+        <sheet>
+          <group>
+            <group>
+              <field name="name" readonly="1"/>
+              <field name="project_id" required="1"/>
+<!--              <field name="contract_id" required="1" domain="[('project_id','=',project_id)]"/>-->
+              <field name="currency_id" readonly="1"/>
+            </group>
+            <group>
+              <field name="period_start" required="1"/>
+              <field name="period_end" required="1"/>
+              <field name="gross_before_tax" readonly="1"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="بنود BOQ">
+              <field name="line_ids">
+                <list editable="bottom">
+                  <field name="description"/>
+                  <field name="uom_id"/>
+                  <field name="qty_this_period"/>
+                  <field name="rate"/>
+                  <field name="amount_this_period" readonly="1"/>
+                  <field name="qty_contract_total"/>
+                  <field name="qty_to_date" readonly="1"/>
+                </list>
+              </field>
+            </page>
+            <page string="Dayworks">
+<!--              <field name="daywork_ids">-->
+<!--                <list editable="bottom">-->
+<!--                  <field name="category"/>-->
+<!--                  <field name="resource_ref"/>-->
+<!--                  <field name="hours_or_days"/>-->
+<!--                  <field name="unit_rate"/>-->
+<!--                  <field name="amount" readonly="1"/>-->
+<!--                </list>-->
+<!--              </field>-->
+            </page>
+            <page string="الإجماليات">
+              <group>
+<!--                <field name="amount_boq_this_period" readonly="1"/>-->
+                <field name="amount_dayworks" readonly="1"/>
+                <field name="retention_amount" readonly="1"/>
+<!--                <field name="advance_recovery_amount" readonly="1"/>-->
+<!--                <field name="ld_amount" readonly="1"/>-->
+<!--                <field name="gross_before_tax" readonly="1"/>-->
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+
+</odoo>

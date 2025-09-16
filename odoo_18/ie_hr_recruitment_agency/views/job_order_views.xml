@@ -1,0 +1,50 @@
+<odoo>
+    <record id="view_recruitment_job_order_list" model="ir.ui.view">
+        <field name="name">recruitment.job.order.list</field>
+        <field name="model">hr.recruitment.job.order</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="position"/>
+                <field name="quantity"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_recruitment_job_order_form" model="ir.ui.view">
+        <field name="name">recruitment.job.order.form</field>
+        <field name="model">hr.recruitment.job.order</field>
+        <field name="arch" type="xml">
+            <form string="Job Order">
+                <header>
+                    <button name="action_set_processing" type="object" string="Start Processing" state="new" class="btn-primary"/>
+                    <button name="action_set_delivered" type="object" string="Mark Delivered" state="processing" class="btn-success"/>
+                    <button name="action_set_closed" type="object" string="Close" state="delivered" class="btn-secondary"/>
+                    <field name="state" widget="statusbar" statusbar_visible="new,processing,delivered,closed"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="client_id"/>
+                        <field name="position"/>
+                        <field name="quantity"/>
+                        <field name="skills_required"/>
+                        <field name="salary"/>
+                        <field name="contract_duration"/>
+                        <field name="work_location"/>
+                    </group>
+                    <group string="Assigned Workers">
+                        <field name="worker_ids" widget="many2many_tags"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+
+
+
+</odoo>

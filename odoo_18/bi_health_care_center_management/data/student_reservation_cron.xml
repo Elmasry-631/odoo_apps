@@ -1,0 +1,61 @@
+<odoo>
+    <data noupdate="0">
+        <record id="ir_cron_update_reservation_states" model="ir.cron">
+            <field name="name">Update Reservation States</field>
+            <field name="model_id" ref="model_student_reservation"/>
+            <field name="state">code</field>
+            <field name="code">model.update_reservation_states()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="ir_cron_update_student_admission_end_date_state" model="ir.cron">
+            <field name="name">Update Student Admission End Date State</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="state">code</field>
+            <field name="code">model.update_student_admission_state()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+
+        <record id="ir_cron_update_students_age" model="ir.cron">
+            <field name="name">Update Students Age</field>
+            <field name="model_id" ref="model_student_admission"/>
+            <field name="state">code</field>
+            <field name="code">model._compute_age()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="active">True</field>
+        </record>
+
+
+        <record id="cron_update_is_warning" model="ir.cron">
+            <field name="name">Update Warning Field</field>
+            <field name="model_id" ref="model_student_admission"/>
+            <field name="state">code</field>
+            <field name="code">
+                model._update_is_warning()
+            </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active">True</field>
+        </record>
+
+        <record id="cron_action_cancel_admission" model="ir.cron">
+            <field name="name">Automatic cancel finished admissions</field>
+            <field name="model_id" ref="model_student_admission"/>
+            <field name="state">code</field>
+            <field name="code">
+                model.action_cancel_cron()
+            </field>
+            <field name="interval_number">18</field>
+            <field name="interval_type">hours</field>
+            <field name="active">True</field>
+        </record>
+
+
+    </data>
+</odoo>

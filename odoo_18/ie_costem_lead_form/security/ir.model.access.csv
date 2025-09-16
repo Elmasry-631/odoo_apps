@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_lead_specification_line_user,access.crm.lead.specification.line.user,model_crm_lead_specification_line,base.group_user,1,1,1,1
+access_crm_lead_specification_line_manager,access.crm.lead.specification.line.manager,model_crm_lead_specification_line,base.group_system,1,1,1,1
+access_res_users_sales,res.users access for sales,base.model_res_users,sales_team.group_sale_salesman,1,1,1,1

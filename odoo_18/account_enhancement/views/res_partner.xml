@@ -1,0 +1,64 @@
+<odoo>
+
+    <!-- Inherit res partner Form View to Modify it vendor code -->
+    <record id="inherit_res_partner_form_view" model="ir.ui.view">
+        <field name="name">inherit_res_partner_form_view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@class='o_address_format']" position="before">
+<<<<<<< HEAD
+                <field name="code_id" 
+                readonly="state != 'draft'"
+                />
+=======
+                <field name="code_id" readonly="state != 'draft'"/>
+>>>>>>> f496dd0b617b50d8b365f7aefe86ed89bb981c70
+            </xpath>
+
+        </field>
+    </record>
+
+
+    <!-- vendor code form view  -->
+    <record id="vedor_code_view_form" model="ir.ui.view">
+        <field name="name">vendor_code_view_form</field>
+        <field name="model">partner.code</field>
+        <field name="arch" type="xml">
+            <form string="_form">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- vendor code list view  -->
+    <record id="vendor_code_view_list" model="ir.ui.view">
+        <field name="name">Vendor code</field>
+        <field name="model">partner.code</field>
+        <field name="arch" type="xml">
+            <list string="list">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+
+    <!-- vendor coed  action   -->
+    <record id="vendor_code_action" model="ir.actions.act_window">
+        <field name="name">action vendor code</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">partner.code</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <!-- Vendor  code Menu Item have a parent vendor in  accounting -->
+    <menuitem id="vendor_code_id" name="Vendor Code" parent="account.menu_finance_payables" action="vendor_code_action"/>
+
+</odoo>

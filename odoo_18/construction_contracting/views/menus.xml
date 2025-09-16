@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <!-- =========================
+       Actions (ir.actions.act_window)
+       ========================= -->
+
+  <!-- سجل الإنتاجية اليومي -->
+  <record id="action_production_logs" model="ir.actions.act_window">
+    <field name="name">سجل الإنتاجية اليومي</field>
+    <field name="res_model">construction.production.log</field>
+    <field name="view_mode">list,form,pivot,graph</field>
+    <field name="context">
+      {
+        'pivot_measures': ['qty_done','manhours','equipment_hours','productivity']
+      }
+    </field>
+  </record>
+
+  <!-- المستخلصات -->
+  <record id="action_ipc" model="ir.actions.act_window">
+    <field name="name">المستخلصات</field>
+    <field name="res_model">construction.ipc</field>
+    <field name="view_mode">list,form,pivot,graph</field>
+  </record>
+
+  <!-- المقايسة (Sale Order draft/sent) -->
+  <record id="action_estimates" model="ir.actions.act_window">
+    <field name="name">المقايسة</field>
+    <field name="res_model">construction.estimate</field>
+    <field name="view_mode">list,form</field>
+    <field name="context">{}</field>
+  </record>
+
+  <!-- العقود -->
+  <record id="action_contracts" model="ir.actions.act_window">
+    <field name="name">العقود</field>
+    <field name="res_model">sale.order</field>
+    <field name="view_mode">list,form</field>
+    <field name="domain">[('state','=','sale')]</field>
+  </record>
+
+  <!-- مكتبة المكوّنات (BOQ) -->
+  <record id="action_boq_library" model="ir.actions.act_window">
+    <field name="name">المكوّنات (BOQ)</field>
+    <field name="res_model">ie.cst.poq</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <!-- الأعمال (خدمات) -->
+  <record id="action_work_items" model="ir.actions.act_window">
+    <field name="name">الأعمال</field>
+    <field name="res_model">product.template</field>
+    <field name="view_mode">list,form</field>
+    <field name="domain">[('type', '=', 'service')]</field>
+    <field name="context">{'default_type': 'service'}</field>
+  </record>
+
+<!-- المعدات -->
+<record id="action_equipment_local" model="ir.actions.act_window">
+    <field name="name">المعدات</field>
+    <field name="res_model">product.template</field>
+    <field name="view_mode">list,form</field>
+    <field name="domain">[('is_equipment','=',True)]</field>
+    <field name="context">{'default_is_equipment': True}</field>
+</record>
+
+
+
+
+
+  <!-- تقرير نِسَب إنجاز المشاريع -->
+  <record id="action_report_project_progress" model="ir.actions.act_window">
+    <field name="name">نِسَب إنجاز المشاريع</field>
+    <field name="res_model">project.task</field>
+    <field name="view_mode">pivot,graph,list</field>
+    <field name="context">
+      {'pivot_measures': ['planned_hours','effective_hours']}
+    </field>
+  </record>
+
+  <!-- تقرير مراقبة التكلفة -->
+  <record id="action_report_cost_control" model="ir.actions.act_window">
+    <field name="name">مراقبة التكلفة</field>
+    <field name="res_model">account.move.line</field>
+    <field name="view_mode">pivot,graph,list</field>
+    <field name="context">
+      {
+        'pivot_measures': ['debit', 'credit', 'balance'],
+        'search_default_posted': 1
+      }
+    </field>
+    <field name="domain">[('move_id.state','=','posted')]</field>
+  </record>
+
+  <!-- تقرير توفر المعدات -->
+  <record id="action_report_equipment_availability" model="ir.actions.act_window">
+    <field name="name">توفّر المعدات</field>
+    <field name="res_model">maintenance.equipment</field>
+    <field name="view_mode">pivot,graph,list</field>
+    <field name="context">{'pivot_measures': ['id']}</field>
+  </record>
+
+  <!-- EVM & S-Curves -->
+  <record id="action_evm" model="ir.actions.act_window">
+    <field name="name">EVM &amp; S-Curves</field>
+    <field name="res_model">construction.evm.period</field>
+    <field name="view_mode">pivot,graph</field>
+    <field name="context">{'graph_measure': 'ev_cum'}</field>
+  </record>
+
+  <!-- تقرير إنتاجية التنفيذ -->
+  <record id="action_report_production" model="ir.actions.act_window">
+    <field name="name">إنتاجية التنفيذ</field>
+    <field name="res_model">construction.production.log</field>
+    <field name="view_mode">pivot,graph,list</field>
+    <field name="context">
+      {
+        'pivot_measures': ['qty_done', 'manhours', 'equipment_hours', 'productivity'],
+        'graph_measure': 'qty_done'
+      }
+    </field>
+  </record>
+
+  <!-- إعدادات -->
+  <record id="action_construction_settings" model="ir.actions.act_window">
+    <field name="name">إعدادات المقاولات</field>
+    <field name="res_model">res.config.settings</field>
+    <field name="view_mode">form</field>
+    <field name="target">current</field>
+  </record>
+
+  <!-- =========================
+       Menus
+       ========================= -->
+
+  <!-- الجذر -->
+  <menuitem id="menu_construction_root" name="المقاولات" sequence="50"/>
+
+  <!-- المنتجات -->
+  <menuitem id="menu_products" name="قائمة المنتجات" parent="menu_construction_root" sequence="10"/>
+  <menuitem id="menu_boq_library" name="المكوّنات (BOQ)" parent="menu_products" action="action_boq_library" sequence="20"/>
+  <menuitem id="menu_equipment" name="المعدات" parent="menu_products" action="action_equipment_local" sequence="30"/>
+  <menuitem id="menu_work_items" name="الأعمال" parent="menu_products" action="action_work_items" sequence="40"/>
+
+  <!-- المشاريع -->
+  <menuitem id="menu_projects_root" name="المشاريع" parent="menu_construction_root" sequence="20"/>
+  <menuitem id="menu_production_logs" name="سجل الإنتاجية اليومي" parent="menu_projects_root" action="action_production_logs" sequence="55"/>
+  <menuitem id="menu_estimates" name="المقايسة" parent="menu_projects_root" action="action_estimates" sequence="10"/>
+  <menuitem id="menu_projects" name="المشاريع" parent="menu_projects_root" action="project.open_view_project_all" sequence="20"/>
+  <menuitem id="menu_tasks" name="الأنشطة" parent="menu_projects_root" action="project.action_view_task" sequence="21"/>
+  <menuitem id="menu_contracts" name="العقود" parent="menu_projects_root" action="action_contracts" sequence="40"/>
+  <menuitem id="menu_ipc" name="المستخلصات" parent="menu_projects_root" action="action_ipc" sequence="50"/>
+
+  <!-- التقارير -->
+  <menuitem id="menu_reports" name="التقارير" parent="menu_construction_root" sequence="30"/>
+  <menuitem id="menu_report_project_progress" name="نِسَب إنجاز المشاريع" parent="menu_reports" action="action_report_project_progress" sequence="10"/>
+  <menuitem id="menu_report_equipment_availability" name="تقرير توفر المعدات" parent="menu_reports" action="action_report_equipment_availability" sequence="20"/>
+  <menuitem id="menu_report_production" name="تقرير الإنتاجية" parent="menu_reports" action="action_report_production" sequence="30"/>
+  <menuitem id="menu_report_evm" name="EVM &amp; S-Curves" parent="menu_reports" action="action_evm" sequence="40"/>
+  <menuitem id="menu_report_cost_control" name="تقرير مراقبة التكلفة" parent="menu_reports" action="action_report_cost_control" sequence="50"/>
+
+  <!-- الإعدادات -->
+  <menuitem id="menu_settings" name="الإعدادات" parent="menu_construction_root" action="action_construction_settings" sequence="40"/>
+
+  <!-- التكاملات -->
+  <menuitem id="menu_integrations_root" name="التكاملات" parent="menu_projects_root" sequence="99"/>
+  <menuitem id="menu_import_msp" name="استيراد MS Project" parent="menu_integrations_root" action="action_import_msp_wizard" sequence="10" groups="base.group_user"/>
+  <menuitem id="menu_import_p6" name="استيراد Primavera P6" parent="menu_integrations_root" action="action_import_p6_wizard" sequence="20" groups="base.group_user"/>
+  <menuitem id="menu_import_ifc" name="استيراد BIM (IFC/IFCXML)" parent="menu_integrations_root" action="action_import_ifc_wizard" sequence="30" groups="base.group_user"/>
+
+</odoo>

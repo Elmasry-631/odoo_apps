@@ -1,0 +1,45 @@
+<odoo>
+    <record id="test_app_odoo_list_view" model="ir.ui.view">
+        <field name="name">test.app.odoo.list</field>
+        <field name="model">test.app.odoo</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="value"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+    <record id="test_app_odoo_form_view" model="ir.ui.view">
+        <field name="name">test.app.odoo.form</field>
+        <field name="model">test.app.odoo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+
+                        </group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="value"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="test_app_odoo_action" model="ir.actions.act_window">
+        <field name="name">Test App Odoo</field>
+        <field name="res_model">test.app.odoo</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="test_app_odoo_menu_root" name="Test App Odoo" sequence="10"/>
+    <menuitem id="test_app_odoo_menu" name="Test App Odoo"/>
+    <menuitem id="test_app_odoo_menu_items" name="Items" parent="test_app_odoo_menu" action="test_app_odoo_action"/>
+
+
+</odoo>

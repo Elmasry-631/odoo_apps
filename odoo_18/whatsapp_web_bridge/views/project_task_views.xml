@@ -1,0 +1,16 @@
+<odoo>
+    <record id="view_task_form_inherit_whatsapp_bridge" model="ir.ui.view">
+        <field name="name">project.task.form.whatsapp.bridge</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="%(action_whatsapp_compose)d"
+                        type="action"
+                        string="WhatsApp"
+                        class="btn-secondary"
+                        context="{'active_model':'project.task','active_id':active_id}"/>
+            </header>
+        </field>
+    </record>
+</odoo>

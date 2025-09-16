@@ -1,0 +1,16 @@
+<odoo>
+    <record id="view_picking_form_inherit_whatsapp_bridge" model="ir.ui.view">
+        <field name="name">stock.picking.form.whatsapp.bridge</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <header position="inside">
+                <button name="%(action_whatsapp_compose)d"
+                        type="action"
+                        string="WhatsApp"
+                        class="btn-secondary"
+                        context="{'active_model':'stock.picking','active_id':active_id}"/>
+            </header>
+        </field>
+    </record>
+</odoo>

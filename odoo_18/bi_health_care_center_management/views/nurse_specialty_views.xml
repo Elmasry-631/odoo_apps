@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="nurse_specialty_view_tree" model="ir.ui.view">
+        <field name="name">nurse.specialty.view.list</field>
+        <field name="model">nurse.specialty</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list string="Nurse Specialty">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="nurse_ids" widget="many2many_tags"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="nurse_specialty_view_form" model="ir.ui.view">
+        <field name="name">nurse.specialty.view.form</field>
+        <field name="model">nurse.specialty</field>
+        <field name="arch" type="xml">
+            <form string="Packages">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="nurse_ids" widget="many2many_tags"/>
+                        </group>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_nurse_specialty" model="ir.actions.act_window">
+        <field name="name">Nurse Specialty</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">nurse.specialty</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to add a new nurse specialty.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="nurse_specialty_menu" name="Cases" parent="bi_health_care_center_management.configuration_menu"
+              sequence="8"
+              action="action_nurse_specialty"/>
+
+
+</odoo>

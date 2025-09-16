@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_construction_contract_all,construction_contract_all,model_construction_contract,base.group_user,1,1,1,1
+access_construction_ipc_all,construction_ipc_all,model_construction_ipc,base.group_user,1,1,1,1
+access_construction_ipc_line_all,construction_ipc_line_all,model_construction_ipc_line,base.group_user,1,1,1,1
+access_construction_ipc_daywork_all,construction_ipc_daywork_all,model_construction_ipc_daywork_line,base.group_user,1,1,1,1
+access_construction_production_log_all,construction_production_log_all,model_construction_production_log,base.group_user,1,1,1,1
+access_construction_baseline_all,construction_baseline_all,model_construction_baseline_period,base.group_user,1,1,1,1
+access_construction_evm_period_ro,construction_evm_period_ro,model_construction_evm_period,base.group_user,1,0,0,0
+access_import_msp_wizard_all,import_msp_wizard_all,model_import_msp_wizard,base.group_user,1,1,1,0
+access_import_p6_wizard_all,import_p6_wizard_all,model_import_p6_wizard,base.group_user,1,1,1,0
+access_import_ifc_wizard_all,import_ifc_wizard_all,model_import_ifc_wizard,base.group_user,1,1,1,0
+access_construction_estimate,construction_estimate,model_construction_estimate,base.group_user,1,1,1,1
+access_ie_cst_poq,ie_cst_poq,model_ie_cst_poq,base.group_user,1,1,1,1
+access_ie_cst_poq_line,ie_cst_poq_line,model_ie_cst_poq_line,base.group_user,1,1,1,1

@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_client,access_client,model_hr_recruitment_client,,1,1,1,1
+access_job_order,access_job_order,model_hr_recruitment_job_order,,1,1,1,1
+access_worker,access_worker,model_hr_recruitment_worker,,1,1,1,1
+access_contract,access_contract,model_hr_recruitment_contract,,1,1,1,1
+access_deployment,access_deployment,model_hr_recruitment_deployment,,1,1,1,1
+access_worker_document_all,access.worker.document.all,model_hr_recruitment_worker_document,,1,1,1,1
+access_workers,access_workers,model_workers,base.group_user,1,1,1,1

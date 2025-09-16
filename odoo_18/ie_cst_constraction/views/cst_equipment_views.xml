@@ -1,0 +1,36 @@
+<odoo>
+    <record id="cst_equipment_list_view" model="ir.ui.view">
+        <field name="name">ie.equipment.list.view</field>
+        <field name="model">ie.cst.equipment</field>
+        <field name="arch" type="xml">
+            <list string="Equipment">
+                <field name="equipment"/>
+            </list>
+        </field>
+    </record>
+    <record id="cst_equipment_form_view" model="ir.ui.view">
+        <field name="name">ie.equipment.form.view</field>
+        <field name="model">ie.cst.equipment</field>
+        <field name="arch" type="xml">
+            <form string="Equipment">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="equipment"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_equipment" model="ir.actions.act_window">
+        <field name="name">Project Equipment</field>
+        <field name="res_model">ie.cst.equipment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="project_poq_root" parent="menu_estimate_root" name="POQ"/>
+    <menuitem id="project_poq_equipment" parent="project_poq_root" action="action_equipment" name="Equipment"/>
+</odoo>

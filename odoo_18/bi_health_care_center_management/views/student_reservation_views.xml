@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+
+    <record id="student_reservation_search_view" model="ir.ui.view">
+        <field name="name">student.reservation.search</field>
+        <field name="model">student.reservation</field>
+        <field name="arch" type="xml">
+            <search string="Client Reservations">
+                <!-- Filters -->
+                <filter string="Yet to Come" name="yet_to_come" domain="[('state', '=', 'yet')]"/>
+                <filter string="Today" name="today" domain="[('state', '=', 'today')]"/>
+                <filter string="Finished" name="finished" domain="[('state', '=', 'finished')]"/>
+
+                <separator/>
+
+                <!-- Searchable Fields -->
+                <field name="ref" string="Reference"/>
+                <field name="name" string="Name"/>
+                <field name="student_id" string="Client" operator="child_of"/>
+                <field name="trainer_id" string="Nurse"/>
+
+                <field name="student_email" string="Client Email"/>
+                <field name="student_mobile" string="Client Mobile"/>
+                <!--                <field name="sport_id" string="Sport Name"/>-->
+
+                <separator/>
+
+                <!-- Group By -->
+                <group expand="1" string="Group By">
+                    <filter string="Reference" name="group_by_ref" context="{'group_by': 'ref'}"/>
+                    <filter string="Name" name="group_by_name" context="{'group_by': 'name'}"/>
+                    <filter string="Client" name="group_by_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="Nurse" name="group_by_trainer" context="{'group_by': 'trainer_id'}"/>
+                    <!--                    <filter string="Sport Name" name="group_by_sport" context="{'group_by': 'sport_id'}"/>-->
+                    <filter string="State" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <!--                    <filter string="Vip" name="group_by_vip" context="{'group_by': 'is_vip'}"/>-->
+                    <!--                    <filter string="Level" name="group_by_c_level_id" context="{'group_by': 'c_level_id'}"/>-->
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="student_reservation_view_tree">
+        <field name="name">student.reservation.list</field>
+        <field name="model">student.reservation</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list string="Client Reservations" create="false" edit="false">
+                <field name="ref"/>
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="trainer_id" optional="show"/>
+                <!--                <field name="student_age" optional="show"/>-->
+                <!--                <field name="sport_id" optional="show"/>-->
+                <!--                <field name="level_id" optional="show"/>-->
+                <field name="package_line_id" optional="show"/>
+
+                <!--                <field name="c_level_id" optional="show"/>-->
+                <field name="day_name" optional="show"/>
+                <field name="start_date" optional="hide"/>
+                <field name="end_date" optional="hide"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'today'"
+                       decoration-danger="state == 'finished'"
+                       decoration-muted="state == 'yet'"/>
+                <!--                <field name="is_vip" widget="boolean_toggle"/>-->
+
+            </list>
+        </field>
+    </record>
+
+    <record id="student_reservation_view_form_no_create" model="ir.ui.view">
+        <field name="name">student.reservation.view.form</field>
+        <field name="model">student.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Student" create="false" edit="false" delete="false">
+                <header>
+                    <button string="Change Reservation" name="action_change_details" invisible="state == 'finished'"
+                            type="object"
+                            confirm="Are you sure you want to change the reservation ?"
+                            class="oe_highlight"/>
+
+                    <button string="Finish" name="action_finish" type="object"
+                            class="oe_highlight" invisible="1"/>
+
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+                    <dev>
+                        <label for="admission_id" class="me-4"/>
+                        <field name="admission_id" string="Ref"/>
+                    </dev>
+
+
+                    <!--                    <div>-->
+                    <!--                        <label for="is_vip" class="me-4"/>-->
+                    <!--                        <field name="is_vip" widget="boolean_toggle"/>-->
+                    <!--                    </div>-->
+
+                    <group>
+                        <group string="Reservation Details">
+                            <!--                                context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True, 'default_is_student': False}"-->
+
+                            <!--                            <field name="student_age"/>-->
+                            <field name="day_name"/>
+                            <label for="start_date" string="Reservation Time"/>
+                            <div class="w-100">
+                                <div class="o_row">
+                                    <field name="start_date" widget="daterange" required="1"
+                                           options="{'related_end_date': 'end_date'}"/>
+                                    <span>&gt;&gt;&gt;&gt;&gt;</span>
+                                    <field name="end_date" widget="daterange" required="1"
+                                           options="{'related_start_date': 'start_date'}"/>
+                                </div>
+                            </div>
+                            <field name="color" widget="color_picker"/>
+                            <field name="check_register" invisible="1" readonly="1"/>
+                        </group>
+                        <group string="Details">
+                            <field name="student_id" widget="res_partner_many2one"
+                                   readonly="0"
+                                   options='{"always_reload": True}'/>
+
+                            <field name="trainer_id"/>
+                            <!--                            <field name="sport_id"/>-->
+                            <!--                            <field name="level_id"/>-->
+                            <!--                            <field name="c_level_id"/>-->
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="student_reservation_view_form" model="ir.ui.view">
+        <field name="name">student.reservation.view.form</field>
+        <field name="model">student.reservation</field>
+        <field name="arch" type="xml">
+            <form string="Student">
+                <header>
+
+                    <field name="state" widget="statusbar" invisible="1"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" class="oe_inline"/>
+                        </h1>
+                    </div>
+                    <!--                    <div>-->
+                    <!--                        <label for="is_vip"/>-->
+                    <!--                        <field name="is_vip" widget="boolean_toggle"/>-->
+                    <!--                    </div>-->
+                    <group>
+                        <group string="Reservation Details">
+                            <!--                                context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': True, 'default_is_student': False}"-->
+
+                            <!--                            <field name="student_age"/>-->
+                            <field name="day_name"/>
+
+
+                            <label for="start_date" string="Reservation Time"/>
+                            <div class="w-100">
+                                <div class="o_row">
+                                    <field name="start_date" widget="daterange" required="1"
+                                           options="{'related_end_date': 'end_date'}"/>
+                                    <span>&gt;&gt;&gt;&gt;&gt;</span>
+                                    <field name="end_date" widget="daterange" required="1"
+                                           options="{'related_start_date': 'start_date'}"/>
+                                </div>
+                            </div>
+                            <field name="color" widget="color_picker"/>
+                            <field name="check_register" invisible="1" readonly="1"/>
+                        </group>
+                        <group string="Sport details">
+                            <!--                            <field name="sport_id"/>-->
+                            <field name="student_id"
+                                   readonly="1"
+                                   options='{"always_reload": True}'/>
+
+                            <field name="trainer_id" readonly="1"/>
+                            <!--                            <field name="level_id"/>-->
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record model="ir.ui.view" id="student_reservation_view_calender">
+        <field name="name">student.reservation.calendar</field>
+        <field name="model">student.reservation</field>
+        <field name="arch" type="xml">
+            <calendar string="Reservation Calendar"
+                      date_start="start_date"
+                      date_stop="end_date"
+                      color="color"
+                      mode="day"
+                      quick_create="0"
+                      event_open_popup="True"
+                      create="false"
+            >
+                <field name="student_id" widget="res_partner_many2one"
+                       readonly="0"
+                       options='{"always_reload": True}'
+                       filters="1"
+                />
+
+                <field name="trainer_id" filters="1"/>
+                <field name="start_date" required="1"/>
+                <field name="end_date" required="1"/>
+                <field name="color" widget="color_picker"/>
+
+
+            </calendar>
+
+        </field>
+    </record>
+
+    <record id="action_student_reservation" model="ir.actions.act_window">
+        <field name="name">Client Reservation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">student.reservation</field>
+        <field name="view_mode">list,form,calendar</field>
+
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+               (0, 0, {'view_mode': 'list', 'view_id': ref('student_reservation_view_tree')}),
+               (0, 0, {'view_mode': 'form', 'view_id': ref('student_reservation_view_form_no_create')})]"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click here to add a new Client Reservation.
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="reservation_student_menu" name="Nurse Reservations" sequence="25"
+              action="action_student_reservation" parent="student_admission_menu"/>
+
+
+</odoo>

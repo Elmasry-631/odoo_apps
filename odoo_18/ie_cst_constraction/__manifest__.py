@@ -1,0 +1,38 @@
+{
+    "name": "Construction Management (CST)",
+    "summary": "End-to-end construction lifecycle: Estimate → Project/Contract → Progress → IPC → Invoicing",
+    "version": "18.0.1.0.0",
+    "author": "Ibrahim Elmasry",
+    "website": "https://woledge.com",
+    "category": "Project",
+    "license": "OEEL-1",
+    "depends": [
+        "base", "mail",
+        "project", "account", "analytic",
+        "purchase", "stock",
+        "hr_timesheet",
+        "maintenance",
+        "documents",  # للمرفقات
+        "contacts"
+    ],
+    "data": [
+        "security/ir.model.access.csv",
+        # "security/cst_construction_rules.xml",
+        "data/cst_sequences.xml",
+        "data/cst_doc_types.xml",
+        # "data/cst_settings_data.xml",
+        "views/cst_menus.xml",
+        "views/cst_estimate_views.xml",
+        "views/cst_project_boq_views.xml",
+        "views/cst_activity_views.xml",
+        "views/cst_equipment_views.xml",
+        "views/cst_subcontract_views.xml",
+        "views/cst_docs_views.xml",
+        "views/cst_settings_views.xml",
+        "views/cst_reports_placeholders.xml",
+        # "demo/demo_data.xml",
+    ],
+    "application": True,
+    "installable": True,
+    "auto_install": False,
+}

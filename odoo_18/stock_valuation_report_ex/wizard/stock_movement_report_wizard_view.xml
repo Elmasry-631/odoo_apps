@@ -1,0 +1,42 @@
+<odoo>
+    <!-- Wizard View -->
+    <record id="view_stock_movement_report_wizard" model="ir.ui.view">
+        <field name="name">stock.movement.report.wizard.form</field>
+        <field name="model">stock.movement.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="📦 Stock Movement Report" class="o_form_full">
+                <sheet>
+                    <group>
+                        <group string="🔍 Filters">
+                            <field name="product_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="Select Products..."/>
+                            <field name="category_id" placeholder="Select Category..."/>
+                        </group>
+                        <group string="📅 Date Range">
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="action_print_report" string="🖨️ Print Report" type="object" class="btn-primary"/>
+                    <button string="❌ Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_stock_movement_report_wizard" model="ir.actions.act_window">
+        <field name="name">Stock Movement Report</field>
+        <field name="res_model">stock.movement.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_stock_movement_report_wizard"/>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_stock_movement_report_root"
+              name="📊 Stock Movement Report"
+              parent="stock.menu_stock_root"
+              action="action_stock_movement_report_wizard"/>
+</odoo>

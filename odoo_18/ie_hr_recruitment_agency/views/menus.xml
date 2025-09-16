@@ -1,0 +1,49 @@
+<odoo>
+
+    <record id="action_recruitment_contract" model="ir.actions.act_window">
+        <field name="name">Contracts</field>
+        <field name="res_model">hr.recruitment.contract</field>
+        <field name="view_mode">list,calendar,form</field>
+    </record>
+    <record id="action_recruitment_client" model="ir.actions.act_window">
+        <field name="name">Clients</field>
+        <field name="res_model">hr.recruitment.client</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_recruitment_worker" model="ir.actions.act_window">
+        <field name="name">Workers</field>
+        <field name="res_model">hr.recruitment.worker</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+
+    <record id="action_worker_names" model="ir.actions.act_window">
+        <field name="name">worker name</field>
+        <field name="res_model">workers</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+        <record id="action_recruitment_job_order" model="ir.actions.act_window">
+        <field name="name">Job Orders</field>
+        <field name="res_model">hr.recruitment.job.order</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <!-- Root Menu -->
+    <menuitem id="menu_hr_recruitment_agency_root" name="Recruitment Agency"/>
+
+    <!-- Clients Menu -->
+    <menuitem id="menu_hr_recruitment_clients" name="Clients" parent="menu_hr_recruitment_agency_root" action="action_recruitment_client" />
+
+    <!-- Workers Main Menu -->
+    <menuitem id="ie_menu_hr_recruitment_workers" name="Recruitment Workers" parent="menu_hr_recruitment_agency_root"/>
+
+    <!-- Workers Submenus -->
+    <menuitem id="menu_hr_recruitment_workers" name="Workers document" parent="ie_menu_hr_recruitment_workers" action="action_recruitment_worker"/>
+    <menuitem id="menu_workers_name" name="Worker Names" parent="ie_menu_hr_recruitment_workers" action="action_worker_names"/>
+
+    <!-- Contracts Menu -->
+    <menuitem id="menu_hr_recruitment_contracts" name="Contracts" parent="menu_hr_recruitment_agency_root" action="action_recruitment_contract"/>
+
+    <!-- Job Orders Menu -->
+    <menuitem id="menu_hr_recruitment_job_orders" name="Job Orders" parent="menu_hr_recruitment_agency_root" action="action_recruitment_job_order"/>
+</odoo>

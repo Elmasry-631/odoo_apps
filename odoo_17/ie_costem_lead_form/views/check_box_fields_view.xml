@@ -1,0 +1,102 @@
+<odoo>
+
+    
+
+    <record id="view_check_box_form_force" model="ir.ui.view">
+        <field name="name">project.task.force.tab</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <!-- Add tabs after Company Visit -->
+            <xpath expr="//page[@name='company_visit']" position="after">
+
+                <!-- Activities Tab -->
+                <page name="activities" string="Activities">
+                    <group>
+                        <group>
+                            <field name="GetSpecifications"/>
+                            <field name="GetProjectLocation"/>
+                            <field name="SiteVisit"/>
+                        </group>
+                        <group>
+                            <field name="GetConsultantName"/>
+                            <field name="GetSystemSupplierName"/>
+                        </group>
+                    </group>
+                </page>
+
+                <!-- Follow Ups Tab -->
+                <page name="follow_ups" string="Follow Ups">
+                    <group>
+                        <field name="FollowUpTechnicalOffer"/>
+                        <field name="FollowUpConsultantApproval"/>
+                        <field name="FollowUpSystemSupplierApproval"/>
+                        <field name="FinancialOfferFollowUp"/>
+                    </group>
+                </page>
+
+                <!-- Specifications Tab -->
+                <page name="specifications" string="Specifications">
+                    <group>
+                        <field name="Specifications" wedgit="many2many_tags"/>
+                    </group>
+                </page>
+
+                <!-- Notes Tab -->
+                <page name="notes" string="Notes">
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </page>
+
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_crm_opportunity_tree_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.tree.inherit.checkbox</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="GetSpecifications"
+                           decoration-danger="GetSpecifications=='pending'"
+                           decoration-warning="GetSpecifications=='in_progress'"
+                           decoration-success="GetSpecifications=='done'" />
+                    <field name="GetProjectLocation"
+                           decoration-danger="GetProjectLocation=='pending'"
+                           decoration-warning="GetProjectLocation=='in_progress'"
+                           decoration-success="GetProjectLocation=='done'" />
+                    <field name="SiteVisit"
+                           decoration-danger="SiteVisit=='pending'"
+                           decoration-warning="SiteVisit=='in_progress'"
+                           decoration-success="SiteVisit=='done'" />
+                    <field name="GetConsultantName"
+                           decoration-danger="GetConsultantName=='pending'"
+                           decoration-warning="GetConsultantName=='in_progress'"
+                           decoration-success="GetConsultantName=='done'" />
+                    <field name="GetSystemSupplierName"
+                           decoration-danger="GetSystemSupplierName=='pending'"
+                           decoration-warning="GetSystemSupplierName=='in_progress'"
+                           decoration-success="GetSystemSupplierName=='done'" />
+                    <field name="FollowUpTechnicalOffer"
+                           decoration-danger="FollowUpTechnicalOffer=='pending'"
+                           decoration-warning="FollowUpTechnicalOffer=='in_progress'"
+                           decoration-success="FollowUpTechnicalOffer=='done'" />
+                    <field name="FollowUpConsultantApproval"
+                           decoration-danger="FollowUpConsultantApproval=='pending'"
+                           decoration-warning="FollowUpConsultantApproval=='in_progress'"
+                           decoration-success="FollowUpConsultantApproval=='done'" />
+                    <field name="FollowUpSystemSupplierApproval"
+                           decoration-danger="FollowUpSystemSupplierApproval=='pending'"
+                           decoration-warning="FollowUpSystemSupplierApproval=='in_progress'"
+                           decoration-success="FollowUpSystemSupplierApproval=='done'" />
+                    <field name="FinancialOfferFollowUp"
+                           decoration-danger="FinancialOfferFollowUp=='pending'"
+                           decoration-warning="FinancialOfferFollowUp=='in_progress'"
+                           decoration-success="FinancialOfferFollowUp=='done'" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

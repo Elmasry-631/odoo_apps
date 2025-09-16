@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_equipment_equipment,equipment.equipment,model_equipment_equipment,,1,1,1,1
+access_equipment_rental,equipment.rental,model_equipment_rental,,1,1,1,1
+access_equipment_rental_line,equipment.rental.line,model_equipment_rental_line,,1,1,1,1

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- cst_construction/data/cst_sequences.xml -->
+<odoo>
+  <record id="seq_cst_estimate" model="ir.sequence">
+    <field name="name">CST Estimate</field>
+    <field name="code">cst.estimate</field>
+    <field name="prefix">EST</field>
+    <field name="padding">4</field>
+  </record>
+
+  <record id="seq_cst_ipc" model="ir.sequence">
+    <field name="name">CST IPC</field>
+    <field name="code">cst.ipc</field>
+    <field name="prefix">IPC</field>
+    <field name="padding">4</field>
+  </record>
+</odoo>

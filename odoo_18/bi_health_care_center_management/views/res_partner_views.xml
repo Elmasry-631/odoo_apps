@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_res_partner_form_sport" model="ir.ui.view">
+        <field name="name">res.partner.form.sport</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='company_type']" position="before">
+                <br/>
+                <label for="is_create_emp" string="Create Employee ?" invisible="create_date"/>
+
+                <field name="is_create_emp" invisible="create_date"/>
+                <br/>
+
+            </xpath>
+
+            <xpath expr="//page[@name='internal_notes']" position="after">
+                <page name="health_care_center" string="Health Care Center">
+                    <group>
+                        <group name="health_care" string="Health Care Details">
+
+                            <!--                            <field name="admission_id"/>-->
+                            <!--                            <field name="birth_date"/>-->
+                            <!--                            <field name="joker"/>-->
+                            <field name="admission_id" readonly="1" invisible="is_driver"/>
+                            <field name="is_student" string="Is Client"/>
+                            <field name="trainer_id" options="{'no_create_edit': True, 'no_create': True}"
+                                   string="Current Nurse" invisible="is_student == False" readonly="1"/>
+
+
+                            <field name="patient_loc" widget="url" invisible="not is_student"/>
+
+
+                            <field name="is_coach" string="Is Nurse"/>
+                            <field name="nurse_specialty_id" invisible="not is_coach"/>
+                            <field name="is_nurse_occupied" invisible="not is_coach"/>
+
+                            <field name="is_driver" string="Is Driver"/>
+                            <field name="admission_ids" invisible="not is_driver" widget="many2many_tags" readonly="1"/>
+                            <field name="is_driver_occupied" invisible="not is_driver" readonly="1"/>
+                            <!--                            <field name="sport_id" widget="many2many_tags"/>-->
+                        </group>
+                        <group name="disability" string="Disability">
+                            <field name="is_disability"/>
+                            <field name="disability_description" invisible="is_disability == False"/>
+                            <!--                            <field name="is_sport" readonly="1"/>-->
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+
+            <field name="vat" position="attributes">
+                <attribute name="invisible">is_sport != True</attribute>
+            </field>
+            <field name="title" position="attributes">
+                <attribute name="invisible">is_sport != True</attribute>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="invisible">is_sport != True</attribute>
+            </field>
+
+            <xpath expr="//span[@name='address_name']" position="before">
+                <field name="p_name" invisible="is_student != True"/>
+                <field name="short_name" invisible="is_sport != True"/>
+            </xpath>
+            <xpath expr="//page[@name='contact_addresses']" position="attributes">
+                <attribute name="invisible">is_student == True or is_coach == True</attribute>
+            </xpath>
+            <xpath expr="//page[@name='sales_purchases']" position="attributes">
+                <attribute name="invisible">is_student == True or is_coach == True</attribute>
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_res_partner_search_view_nurse" model="ir.ui.view">
+        <field name="name">res.partner.search.view.nurse</field>
+        <field name="model">res.partner</field>
+        <field name="type">search</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='type_company']" position="after">
+                <filter string="Is Nurse Occupied" name="is_nurse_occupied"
+                        domain="[('is_nurse_occupied', '=', True),('is_coach','=',True)]"/>
+
+                <filter string="Is Nurse Free" name="is_nurse_occupied"
+                        domain="[('is_nurse_occupied', '=', False),('is_coach','=',True)]"/>
+
+                <filter string="Is Driver Occupied" name="is_driver_occupied"
+                        domain="[('is_driver_occupied', '=', True),('is_driver','=',True)]"/>
+
+                <filter string="Is Driver Free" name="is_driver_occupied"
+                        domain="[('is_driver_occupied', '=', False),('is_driver','=',True)]"/>
+            </xpath>
+
+
+        </field>
+    </record>
+</odoo>

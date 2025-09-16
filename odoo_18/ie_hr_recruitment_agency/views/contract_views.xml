@@ -1,0 +1,77 @@
+<odoo>
+    <!-- Sequence -->
+    <record id="seq_hr_recruitment_contract" model="ir.sequence">
+        <field name="name">Recruitment Contract</field>
+        <field name="code">hr.recruitment.contract</field>
+        <field name="prefix">RC</field>
+        <field name="padding">4</field>
+    </record>
+
+    <!-- list View -->
+    <record id="view_recruitment_contract_list" model="ir.ui.view">
+        <field name="name">recruitment.contract.list</field>
+        <field name="model">hr.recruitment.contract</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="job_order_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="amount"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_recruitment_contract_form" model="ir.ui.view">
+        <field name="name">recruitment.contract.form</field>
+        <field name="model">hr.recruitment.contract</field>
+        <field name="arch" type="xml">
+            <form string="Recruitment Contract">
+                <header>
+                    <button name="action_activate" type="object" string="Activate" class="btn-primary"
+                           invisible = "state != 'draft'"/>
+                    <button name="action_expire" type="object" string="Mark Expired" class="btn-secondary"
+                            invisible = "state != 'active'"/>
+                    <button name="action_create_invoice" type="object" string="Create Invoice" state="active" class="btn-primary"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,expired"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="client_id"/>
+                        <field name="job_order_id"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="payment_terms"/>
+                        <field name="amount"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_hr_recruitment_contract_calendar" model="ir.ui.view">
+        <field name="name">hr.recruitment.contract.calendar</field>
+        <field name="model">hr.recruitment.contract</field>
+        <field name="arch" type="xml">
+            <calendar string="Recruitment Contracts"
+                      date_start="start_date"
+                      date_stop="end_date"
+                      color="state">
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="job_order_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Action -->
+
+</odoo>

@@ -1,0 +1,212 @@
+<odoo>
+    <record id="view_task_form_tab_request_form_force" model="ir.ui.view">
+        <field name="name">project.task.force.tab</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Project Visit Form -->
+            <xpath expr="//page[@name='lead']" position="after">
+                <page name="project_visit" string="Project Visit Form">
+                    <group>
+                        <group>
+                            <field name="sales_eng"/>
+                            <field name="company_reference"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="site_company_name"/>
+                            <field name="site_project_name"/>
+                            <field name="site_project_address"/>
+                        </group>
+                    </group>
+
+                    <separator string="Project Team Details" colspan="4"/>
+                    <group>
+                        <group string="Contractor Site Eng">
+                            <field name="contractor_name"/>
+                            <field name="contractor_mobile"/>
+                            <field name="contractor_email"/>
+                        </group>
+                        <group string="Consultant">
+                            <field name="consultant_name"/>
+                            <field name="consultant_email"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Consultant Site Eng">
+                            <field name="consultant_site_name"/>
+                            <field name="consultant_site_mobile"/>
+                            <field name="consultant_site_email"/>
+                        </group>
+                        <group string="Supervisor Consultant Eng">
+                            <field name="supervisor_name"/>
+                            <field name="supervisor_mobile"/>
+                            <field name="supervisor_email"/>
+                        </group>
+                    </group>
+
+                    <separator string="System Supplier" colspan="4"/>
+                    <group>
+                        <field name="fire_alarm_supplier"/>
+                        <field name="fire_alarm_engineer"/>
+                        <field name="fire_alarm_mobile"/>
+                    </group>
+                    <group>
+                        <field name="public_address_supplier"/>
+                        <field name="public_address_engineer"/>
+                        <field name="public_address_mobile"/>
+                    </group>
+                    <group>
+                        <field name="data_system_supplier"/>
+                        <field name="data_system_engineer"/>
+                        <field name="data_system_mobile"/>
+                    </group>
+                    <group>
+                        <field name="access_control_supplier"/>
+                        <field name="access_control_engineer"/>
+                        <field name="access_control_mobile"/>
+                    </group>
+                    <group>
+                        <field name="bms_supplier"/>
+                        <field name="bms_engineer"/>
+                        <field name="bms_mobile"/>
+                    </group>
+                    <group>
+                        <field name="cctv_supplier"/>
+                        <field name="cctv_engineer"/>
+                        <field name="cctv_mobile"/>
+                    </group>
+                    <group>
+                        <field name="matv_supplier"/>
+                        <field name="matv_engineer"/>
+                        <field name="matv_mobile"/>
+                    </group>
+                    <group>
+                        <field name="other_supplier"/>
+                        <field name="other_engineer"/>
+                        <field name="other_mobile"/>
+                    </group>
+
+                    <separator string="Requirements" colspan="4"/>
+                    <group>
+                        <field name="fire_alarm_note"/>
+                        <field name="fire_alarm_requirement"/>
+                    </group>
+                    <group>
+                        <field name="public_address_note"/>
+                        <field name="public_address_requirement"/>
+                    </group>
+                    <group>
+                        <field name="data_system_note"/>
+                        <field name="data_system_requirement"/>
+                    </group>
+                    <group>
+                        <field name="access_control_note"/>
+                        <field name="access_control_requirement"/>
+                    </group>
+                    <group>
+                        <field name="bms_note"/>
+                        <field name="bms_requirement"/>
+                    </group>
+                    <group>
+                        <field name="cctv_note"/>
+                        <field name="cctv_requirement"/>
+                    </group>
+                    <group>
+                        <field name="matv_note"/>
+                        <field name="matv_requirement"/>
+                    </group>
+                    <group>
+                        <field name="other_note"/>
+                        <field name="other_requirement"/>
+                    </group>
+
+                    <separator string="Signature"/>
+                    <field name="site_signature" widget="image"/>
+                </page>
+            </xpath>
+
+            <!-- Company Visit Form -->
+            <xpath expr="//page[@name='project_visit']" position="after">
+                <page name="company_visit" string="Company Visit Form">
+                    <group>
+                        <field name="sales_eng"/>
+                        <field name="company_reference"/>
+                        <field name="date"/>
+                    </group>
+
+                    <separator string="A - Company Details"/>
+                    <group>
+                        <field name="company_name"/>
+                        <field name="tax_id"/>
+                        <field name="address"/>
+                        <field name="telephone"/>
+                        <field name="company_email"/>
+                    </group>
+
+                    <group string="General Manager">
+                        <field name="general_manager_name"/>
+                        <field name="general_manager_mobile"/>
+                        <field name="general_manager_email"/>
+                    </group>
+                    <group string="Projects Manager">
+                        <field name="projects_manager_name"/>
+                        <field name="projects_manager_mobile"/>
+                        <field name="projects_manager_email"/>
+                    </group>
+                    <group string="Electrical Manager">
+                        <field name="electrical_manager_name"/>
+                        <field name="electrical_manager_mobile"/>
+                        <field name="electrical_manager_email"/>
+                    </group>
+                    <group string="Purchasing Manager">
+                        <field name="purchasing_manager_name"/>
+                        <field name="purchasing_manager_mobile"/>
+                        <field name="purchasing_manager_email"/>
+                    </group>
+                    <group string="Financial Manager">
+                        <field name="financial_manager_name"/>
+                        <field name="financial_manager_mobile"/>
+                        <field name="financial_manager_email"/>
+                    </group>
+
+                    <separator string="B - Projects"/>
+                    <group string="Project 1">
+                        <field name="project_name_1"/>
+                        <field name="location_1"/>
+                        <field name="consultant_1"/>
+                        <field name="site_eng_1"/>
+                        <field name="mobile_1"/>
+                        <field name="specifications_1"/>
+                    </group>
+                    <group string="Project 2">
+                        <field name="project_name_2"/>
+                        <field name="location_2"/>
+                        <field name="consultant_2"/>
+                        <field name="site_eng_2"/>
+                        <field name="mobile_2"/>
+                        <field name="specifications_2"/>
+                    </group>
+
+                    <separator string="C - Requirement"/>
+                    <group string="Requirement 1">
+                        <field name="req_project_name_1"/>
+                        <field name="req_system_1"/>
+                        <field name="req_notes_1"/>
+                    </group>
+                    <group string="Requirement 2">
+                        <field name="req_project_name_2"/>
+                        <field name="req_system_2"/>
+                        <field name="req_notes_2"/>
+                    </group>
+
+                    <separator string="Signature"/>
+                    <field name="company_signature" widget="image"/>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

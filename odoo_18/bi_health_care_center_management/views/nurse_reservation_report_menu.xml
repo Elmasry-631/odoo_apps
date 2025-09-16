@@ -1,0 +1,22 @@
+<odoo>
+    <record id="action_open_nurse_reservation_report_wizard" model="ir.actions.act_window">
+    <field name="name">Nurse Reservation Report</field>
+    <field name="res_model">nurse.reservation.report.wizard</field>
+    <field name="view_mode">form</field>
+    <field name="target">new</field>
+</record>
+
+    <menuitem
+    id="menu_nurse_reservation_report_root"
+    name="Reports"
+    parent="bi_health_care_center_management.menu_health_care_root"
+/>
+
+<menuitem
+    id="menu_nurse_reservation_report"
+    name="Nurse Reservation Report"
+    parent="menu_nurse_reservation_report_root"
+    action="action_open_nurse_reservation_report_wizard"
+/>
+
+</odoo>

@@ -1,0 +1,98 @@
+<odoo>
+    <template id="crm_lead_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <div class="page" style="font-family: Arial, sans-serif; font-size: 15px; color:#333;">
+
+                    <!-- Header -->
+                    <div style="text-align:center; margin-bottom:25px;">
+                        <h2 style="margin:0; padding:0; font-size:22px; color:#2c3e50;">Lead Report</h2>
+                        <p style="color:#7f8c8d;">Generated from CRM</p>
+                    </div>
+
+                    <!-- Basic Lead Info -->
+                    <h3 style="background:#3498db; color:white; padding:6px; border-radius:5px;">Basic Information</h3>
+                    <table style="width:100%; border-collapse: collapse; margin-bottom:20px; font-size:14px;">
+                        <tr><td><strong>Lead Name:</strong></td><td><t t-esc="doc.name or ''"/></td></tr>
+                        <tr><td><strong>Email:</strong></td><td><t t-esc="doc.email_from or ''"/></td></tr>
+                        <tr><td><strong>Phone:</strong></td><td><t t-esc="doc.phone or ''"/></td></tr>
+                        <tr><td><strong>Company:</strong></td><td><t t-esc="doc.partner_name or ''"/></td></tr>
+                    </table>
+
+                    <!-- Status Checklist -->
+                    <h3 style="background:#1abc9c; color:white; padding:6px; border-radius:5px;">Status Checklist</h3>
+                    <ul style="font-size:14px;">
+                        <li>Get Specifications: <t t-esc="doc.GetSpecifications or ''"/></li>
+                        <li>Get Project Location: <t t-esc="doc.GetProjectLocation or ''"/></li>
+                        <li>Site Visit: <t t-esc="doc.SiteVisit or ''"/></li>
+                        <li>Get Consultant Name: <t t-esc="doc.GetConsultantName or ''"/></li>
+                        <li>System Supplier Name: <t t-esc="doc.GetSystemSupplierName or ''"/></li>
+                        <li>Follow Up Technical Offer: <t t-esc="doc.FollowUpTechnicalOffer or ''"/></li>
+                        <li>Follow Up Consultant Approval: <t t-esc="doc.FollowUpConsultantApproval or ''"/></li>
+                        <li>Follow Up System Supplier Approval: <t t-esc="doc.FollowUpSystemSupplierApproval or ''"/></li>
+                        <li>Financial Offer Follow Up: <t t-esc="doc.FinancialOfferFollowUp or ''"/></li>
+                    </ul>
+
+                    <!-- Site Visit -->
+                    <h3 style="background:#9b59b6; color:white; padding:6px; border-radius:5px;">Site Visit Form</h3>
+                    <table style="width:100%; border-collapse: collapse; margin-bottom:20px; font-size:14px;">
+                        <tr><td><strong>Company Name:</strong></td><td><t t-esc="doc.site_company_name or ''"/></td></tr>
+                        <tr><td><strong>Project Name:</strong></td><td><t t-esc="doc.site_project_name or ''"/></td></tr>
+                        <tr><td><strong>Project Address:</strong></td><td><t t-esc="doc.site_project_address or ''"/></td></tr>
+                        <tr><td><strong>Contractor Eng:</strong></td><td>
+                            <t t-esc="doc.contractor_name or ''"/> |
+                            <t t-esc="doc.contractor_mobile or ''"/> |
+                            <t t-esc="doc.contractor_email or ''"/>
+                        </td></tr>
+                    </table>
+
+                    <!-- Consultant -->
+                    <h3 style="background:#e67e22; color:white; padding:6px; border-radius:5px;">Consultant</h3>
+                    <table style="width:100%; border-collapse: collapse; margin-bottom:20px; font-size:14px;">
+                        <tr><td><strong>Name:</strong></td><td><t t-esc="doc.consultant_name or ''"/></td></tr>
+                        <tr><td><strong>Email:</strong></td><td><t t-esc="doc.consultant_email or ''"/></td></tr>
+                        <tr><td><strong>Site Eng:</strong></td><td>
+                            <t t-esc="doc.consultant_site_name or ''"/> |
+                            <t t-esc="doc.consultant_site_mobile or ''"/> |
+                            <t t-esc="doc.consultant_site_email or ''"/>
+                        </td></tr>
+                    </table>
+
+                    <!-- System Suppliers -->
+                    <h3 style="background:#2980b9; color:white; padding:6px; border-radius:5px;">System Suppliers</h3>
+                    <table style="width:100%; border-collapse: collapse; margin-bottom:20px; font-size:14px;" border="1">
+                        <tr style="background:#ecf0f1;">
+                            <th style="padding:5px;">System</th>
+                            <th style="padding:5px;">Supplier</th>
+                            <th style="padding:5px;">Engineer</th>
+                            <th style="padding:5px;">Mobile</th>
+                        </tr>
+                        <tr><td>Fire Alarm</td><td><t t-esc="doc.fire_alarm_supplier or ''"/></td><td><t t-esc="doc.fire_alarm_engineer or ''"/></td><td><t t-esc="doc.fire_alarm_mobile or ''"/></td></tr>
+                        <tr><td>Public Address</td><td><t t-esc="doc.public_address_supplier or ''"/></td><td><t t-esc="doc.public_address_engineer or ''"/></td><td><t t-esc="doc.public_address_mobile or ''"/></td></tr>
+                        <tr><td>Data System</td><td><t t-esc="doc.data_system_supplier or ''"/></td><td><t t-esc="doc.data_system_engineer or ''"/></td><td><t t-esc="doc.data_system_mobile or ''"/></td></tr>
+                        <tr><td>Access Control</td><td><t t-esc="doc.access_control_supplier or ''"/></td><td><t t-esc="doc.access_control_engineer or ''"/></td><td><t t-esc="doc.access_control_mobile or ''"/></td></tr>
+                        <tr><td>BMS</td><td><t t-esc="doc.bms_supplier or ''"/></td><td><t t-esc="doc.bms_engineer or ''"/></td><td><t t-esc="doc.bms_mobile or ''"/></td></tr>
+                        <tr><td>CCTV</td><td><t t-esc="doc.cctv_supplier or ''"/></td><td><t t-esc="doc.cctv_engineer or ''"/></td><td><t t-esc="doc.cctv_mobile or ''"/></td></tr>
+                        <tr><td>MATV</td><td><t t-esc="doc.matv_supplier or ''"/></td><td><t t-esc="doc.matv_engineer or ''"/></td><td><t t-esc="doc.matv_mobile or ''"/></td></tr>
+                        <tr><td>Other</td><td><t t-esc="doc.other_supplier or ''"/></td><td><t t-esc="doc.other_engineer or ''"/></td><td><t t-esc="doc.other_mobile or ''"/></td></tr>
+                    </table>
+
+                    <!-- Notes & Requirements -->
+                    <h3 style="background:#c0392b; color:white; padding:6px; border-radius:5px;">Notes &amp; Requirements</h3>
+                    <table style="width:100%; border-collapse: collapse; margin-bottom:20px; font-size:14px;" border="1">
+                        <tr style="background:#ecf0f1;"><th>System</th><th>Note</th><th>Requirement</th></tr>
+                        <tr><td>Fire Alarm</td><td><t t-esc="doc.fire_alarm_note or ''"/></td><td><t t-esc="doc.fire_alarm_requirement or ''"/></td></tr>
+                        <tr><td>Public Address</td><td><t t-esc="doc.public_address_note or ''"/></td><td><t t-esc="doc.public_address_requirement or ''"/></td></tr>
+                        <tr><td>Data System</td><td><t t-esc="doc.data_system_note or ''"/></td><td><t t-esc="doc.data_system_requirement or ''"/></td></tr>
+                        <tr><td>Access Control</td><td><t t-esc="doc.access_control_note or ''"/></td><td><t t-esc="doc.access_control_requirement or ''"/></td></tr>
+                        <tr><td>BMS</td><td><t t-esc="doc.bms_note or ''"/></td><td><t t-esc="doc.bms_requirement or ''"/></td></tr>
+                        <tr><td>CCTV</td><td><t t-esc="doc.cctv_note or ''"/></td><td><t t-esc="doc.cctv_requirement or ''"/></td></tr>
+                        <tr><td>MATV</td><td><t t-esc="doc.matv_note or ''"/></td><td><t t-esc="doc.matv_requirement or ''"/></td></tr>
+                        <tr><td>Other</td><td><t t-esc="doc.other_note or ''"/></td><td><t t-esc="doc.other_requirement or ''"/></td></tr>
+                    </table>
+
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

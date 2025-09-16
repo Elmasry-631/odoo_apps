@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- list/List View -->
+    <record id="view_equipment_list" model="ir.ui.view">
+        <field name="name">equipment.equipment.list</field>
+        <field name="model">equipment.equipment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="product_id"/>
+                <field name="code"/>
+                <field name="category"/>
+<!--                <field name="property_account_income_id"/>-->
+                <field name="cost"/>
+                <field name="is_available"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_equipment_form" model="ir.ui.view">
+        <field name="name">equipment.equipment.form</field>
+        <field name="model">equipment.equipment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="code"/>
+                        <field name="category"/>
+<!--                        <field name="property_account_income_id"/>-->
+                        <field name="cost"/>
+                        <field name="is_available"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_equipment_search" model="ir.ui.view">
+        <field name="name">equipment.equipment.search</field>
+        <field name="model">equipment.equipment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="code"/>
+                <field name="category"/>
+
+                <filter name="available" string="Available" domain="[('is_available', '=', True)]"/>
+                <filter name="not_available" string="Not Available" domain="[('is_available', '=', False)]"/>
+                <filter name="availability_filter" string="Availability" domain="[]" context="{'group_by':'is_available'}"/>
+            </search>
+
+        </field>
+    </record>
+
+
+
+    <!-- Action -->
+    <record id="action_equipment_equipment" model="ir.actions.act_window">
+        <field name="name">Equipments</field>
+        <field name="res_model">equipment.equipment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

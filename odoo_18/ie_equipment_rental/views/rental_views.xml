@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_equipment_rental_list" model="ir.ui.view">
+        <field name="name">equipment.rental.list</field>
+        <field name="model">equipment.rental</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="days_count"/>
+                <field name="total_amount"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_equipment_rental_form" model="ir.ui.view">
+        <field name="name">equipment.rental.form</field>
+        <field name="model">equipment.rental</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <header>
+                        <button name="action_confirm"
+                                type="object"
+                                string="Confirm"
+                                class="btn-primary"
+                                invisible="state != 'draft'"/>
+                        <button name="action_done"
+                                type="object"
+                                string="Done"
+                                class="btn-success"
+                                invisible="state != 'active'"/>
+                        <button name="action_cancel"
+                                type="object"
+                                string="Cancel"
+                                class="btn-secondary"
+                                invisible="not (state in ('draft','active'))"/>
+                        <button name="action_set_draft"
+                                type="object"
+                                string="Set to Draft"
+                                class="btn-secondary"
+                                invisible="state != 'cancel'"/>
+                        <button name="%(action_equipment_rental_report)d"
+                                string="Print Contract"
+                                type="action"
+                                class="btn-primary"
+                                invisible="not (state in ('active','done'))"/>
+                        <button name="create_invoice_from_rental"
+                                string="Create Invoice"
+                                type="object"
+                                class="btn-primary"
+                                invisible="not (state in ('active'))"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,active,done,cancel"/>
+                    </header>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice" string="View Invoice"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-file-invoice"/>
+                    </div>
+
+                    <group>
+                        <field name="name" readonly="1"/>
+                        <field name="partner_id"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="days_count" readonly="1"/>
+                        <field name="total_amount" readonly="1"/>
+                        <field name="state"/>
+                    </group>
+
+                    <!-- Equipment Lines Table -->
+                    <notebook>
+                           <page string="Equipment Lines">
+                                <field name="equipment_line_ids">
+                                    <list editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="days_count" readonly="1"/>
+                                        <field name="price_per_day"/>
+                                        <field name="tax_id" widget="many2many_tags"/>
+                                        <field name="subtotal" readonly="1"/>
+                                    </list>
+                                </field>
+                            </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Kanban View -->
+    <record id="view_equipment_rental_kanban" model="ir.ui.view">
+        <field name="name">equipment.rental.kanban</field>
+        <field name="model">equipment.rental</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_example" default_group_by="state">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="total_amount"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_record_title">
+                                <strong><span t-esc="record.name.value"/></strong>
+                            </div>
+                            <div><strong>Customer:</strong> <span t-esc="record.partner_id.value"/></div>
+                            <div><strong>Period:</strong>
+                                <span t-esc="record.start_date.value"/> → <span t-esc="record.end_date.value"/>
+                            </div>
+                            <div><strong>Total:</strong> <span t-esc="record.total_amount.value"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_equipment_rental_calendar" model="ir.ui.view">
+        <field name="name">equipment.rental.calendar</field>
+        <field name="model">equipment.rental</field>
+        <field name="arch" type="xml">
+            <calendar string="Equipment Rentals" date_start="start_date" date_stop="end_date" color="partner_id">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="state"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_equipment_rental" model="ir.actions.act_window">
+        <field name="name">Rental Contracts</field>
+        <field name="res_model">equipment.rental</field>
+        <field name="view_mode">list,form,kanban,calendar</field>
+    </record>
+
+    <!-- Sequence -->
+    <record id="seq_equipment_rental" model="ir.sequence">
+        <field name="name">Equipment Rental Contract</field>
+        <field name="code">equipment.rental</field>
+        <field name="prefix">RCN/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

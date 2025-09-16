@@ -1,0 +1,44 @@
+<odoo>
+  <record id="view_production_log_list" model="ir.ui.view">
+    <field name="name">construction.production.log.list</field>
+    <field name="model">construction.production.log</field>
+    <field name="arch" type="xml">
+      <list string="سجل الإنتاجية اليومي">
+        <field name="date"/>
+        <field name="project_id"/>
+        <field name="task_id"/>
+        <field name="qty_done"/>
+        <field name="manhours"/>
+        <field name="equipment_hours"/>
+        <field name="productivity"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="view_production_log_form" model="ir.ui.view">
+    <field name="name">construction.production.log.form</field>
+    <field name="model">construction.production.log</field>
+    <field name="arch" type="xml">
+      <form string="سجل الإنتاجية">
+        <sheet>
+          <group>
+            <group>
+              <field name="date"/>
+              <field name="project_id" required="1"/>
+              <field name="task_id"/>
+              <field name="boq_ref"/>
+            </group>
+            <group>
+              <field name="qty_done"/>
+              <field name="manhours"/>
+              <field name="equipment_hours"/>
+              <field name="productivity" readonly="1"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+
+</odoo>

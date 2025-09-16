@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="account_enhancement_view_account_journal_form_inherit" model="ir.ui.view">
+            <field name="name">account_enhancement_view_account_journal_form_inherit</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="after">
+                    <!-- Add your fields or attributes here -->
+                    <field name="is_free_jornal"/>
+                </xpath>
+
+            </field>
+        </record>
+    </data>
+</odoo>

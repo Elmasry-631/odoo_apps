@@ -1,0 +1,47 @@
+<odoo>
+  <record id="view_construction_settings" model="ir.ui.view">
+    <field name="name">construction.settings.view.form</field>
+    <field name="model">res.config.settings</field>
+    <field name="arch" type="xml">
+      <form string="إعدادات المقاولات">
+        <sheet>
+          <group string="Enterprise Feature Flags">
+            <group>
+              <field name="enable_project_scheduling_gantt"/>
+              <field name="enable_cpm"/>
+              <field name="enable_agile_mode"/>
+              <field name="enable_estimate_wbs_structure"/>
+              <field name="enable_contract_phasing_wbs"/>
+            </group>
+            <group>
+              <field name="enable_risk_register"/>
+              <field name="enable_qaqc_hse_advanced"/>
+              <field name="enable_docs_advanced"/>
+              <field name="enable_cashflow_forecast"/>
+              <field name="enable_subcontractor_advanced"/>
+              <field name="enable_resource_planning"/>
+              <field name="enable_integrations"/>
+            </group>
+          </group>
+          <group string="اعتمادات الاستشاري">
+            <field name="enable_multi_stage_consultant_approval"/>
+            <field name="require_attachments_on_consultant_approval"/>
+          </group>
+          <group string="سياسات العقد (قبل الضريبة)">
+            <group>
+              <field name="default_retention_rate"/>
+              <field name="default_advance_percent"/>
+              <field name="default_advance_recovery_ipcs"/>
+            </group>
+            <group>
+              <field name="default_ld_rate_per_day"/>
+              <field name="default_ld_cap_percent"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+
+</odoo>

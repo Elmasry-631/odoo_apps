@@ -1,0 +1,26 @@
+<odoo>
+    <record id="view_whatsapp_compose_form" model="ir.ui.view">
+        <field name="name">whatsapp.compose.form</field>
+        <field name="model">whatsapp.compose</field>
+        <field name="arch" type="xml">
+            <form string="Send WhatsApp">
+                <group>
+                    <field name="partner_id"/>
+                    <field name="phone"/>
+                    <field name="message" nolabel="1"/>
+                </group>
+                <footer>
+                    <button string="Send" type="object" name="action_send" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_compose" model="ir.actions.act_window">
+        <field name="name">Send WhatsApp</field>
+        <field name="res_model">whatsapp.compose</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

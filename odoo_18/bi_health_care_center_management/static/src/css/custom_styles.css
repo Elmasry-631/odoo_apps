@@ -1,0 +1,16 @@
+.o_list_view tbody td.column-n_of_session {
+    min-width: 80px;
+    max-width: 100px;
+    text-align: center;
+}
+
+.o_list_view tbody td.column-price {
+    min-width: 120px;
+    max-width: 150px;
+    text-align: right;
+}
+
+.o_list_view tbody td.column-product {
+    min-width: 200px;
+    max-width: 250px;
+}

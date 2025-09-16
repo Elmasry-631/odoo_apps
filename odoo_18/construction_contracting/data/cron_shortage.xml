@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+
+  <!-- Server Action: فحص نقص المخزون -->
+  <record id="ir_actions_server_shortage_scan" model="ir.actions.server">
+    <field name="name">Stock Shortage Scanner (Projects)</field>
+    <field name="model_id" ref="product.model_product_product"/>
+    <field name="state">code</field>
+    <field name="code"><![CDATA[
+# فحص نقص المخزون: أي Quant داخلي (internal) محجوزه أكبر من المتاح
+Quant = env['stock.quant'].sudo()
+Product = env['product.product'].sudo()
+Activity = env['mail.activity'].sudo()
+IrModel = env['ir.model'].sudo()
+
+group = env.ref('construction_contracting.group_operations_manager', raise_if_not_found=False)
+ops_users = group.users if group else env['res.users']
+
+todo_type = env.ref('mail.mail_activity_data_todo', raise_if_not_found=False)
+
+short_quants = Quant.search([
+    ('location_id.usage', '=', 'internal'),
+    ('reserved_quantity', '>', 'quantity'),
+])
+
+# تجميع حسب (Product, Location)
+by_key = {}
+for q in short_quants:
+    key = (q.product_id.id, q.location_id.id)
+    rec = by_key.setdefault(key, {
+        'product': q.product_id,
+        'location': q.location_id,
+        'qty': 0.0,
+        'reserved': 0.0,
+    })
+    rec['qty'] += q.quantity
+    rec['reserved'] += q.reserved_quantity
+
+model_prod = IrModel._get('product.product')
+
+created_acts = 0
+for (prod_id, loc_id), rec in by_key.items():
+    shortage = rec['reserved'] - rec['qty']
+    if shortage <= 0:
+        continue
+
+    note = (
+        "نقص مخزون في موقع: <b>%s</b><br/>"
+        "المنتج: <b>%s</b><br/>"
+        "المتوفر: %s / المحجوز: %s / العجز: <b>%s</b>"
+    ) % (rec['location'].display_name, rec['product'].display_name, rec['qty'], rec['reserved'], shortage)
+
+    # أنشئ ملاحظة على بطاقة المنتج
+    rec['product'].message_post(body=note, subtype_xmlid='mail.mt_note')
+
+    # أنشئ Activities لمستخدمي مجموعة مدير العمليات (لتفادي التكرار نبحث عن Activity مشابهة)
+    if todo_type and ops_users:
+        summary = "Shortage @ %s" % rec['location'].display_name
+        for u in ops_users:
+            exists = Activity.search([
+                ('res_model_id', '=', model_prod.id),
+                ('res_id', '=', rec['product'].id),
+                ('user_id', '=', u.id),
+                ('activity_type_id', '=', todo_type.id),
+                ('summary', '=', summary),
+            ], limit=1)
+            if exists:
+                continue
+            Activity.create({
+                'res_model_id': model_prod.id,
+                'res_id': rec['product'].id,
+                'user_id': u.id,
+                'activity_type_id': todo_type.id,
+                'summary': summary,
+                'note': note,
+            })
+            created_acts += 1
+
+# اختياري: سجل رسالة في سجل الخادم
+action_result = "Shortage scan done. Products: %s, Activities created: %s" % (len(by_key), created_acts)
+    ]]></field>
+  </record>
+
+  <!-- Scheduled Action (Cron): تشغيل الفحص كل ساعة -->
+  <record id="ir_cron_shortage_scan" model="ir.cron">
+    <field name="name">Stock Shortage Scanner (Hourly)</field>
+    <field name="model_id" ref="base.model_ir_actions_server"/>
+    <field name="state">code</field>
+    <field name="code">model.browse(ref('construction_contracting.ir_actions_server_shortage_scan')).with_user(ref('base.user_admin')).run()</field>
+    <field name="interval_number">1</field>
+    <field name="interval_type">hours</field>
+    <!-- numbercall اتحذف لأن مش موجود في Odoo 18 -->
+    <field name="active">True</field>
+  </record>
+
+</odoo>

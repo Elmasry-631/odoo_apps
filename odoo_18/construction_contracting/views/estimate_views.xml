@@ -1,0 +1,57 @@
+<odoo>
+  <!-- List View -->
+<record id="view_construction_estimate_list" model="ir.ui.view">
+  <field name="name">construction.estimate.list</field>
+  <field name="model">construction.estimate</field>
+  <field name="arch" type="xml">
+    <list string="المقايسة">
+      <field name="name"/>
+      <field name="partner_id"/>
+      <field name="company_id"/>
+      <field name="currency_id"/>
+      <field name="state"/>
+    </list>
+  </field>
+</record>
+
+  <!-- Form View -->
+  <record id="view_construction_estimate_form" model="ir.ui.view">
+    <field name="name">construction.estimate.form</field>
+    <field name="model">construction.estimate</field>
+    <field name="arch" type="xml">
+      <form string="المقايسة">
+        <header>
+          <button name="action_send" string="إرسال" type="object"
+                  invisible="state != 'draft'"/>
+          <button name="action_confirm" string="quotation" type="object" class="oe_highlight"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed"/>
+        </header>
+
+        <sheet>
+          <!-- Smart Button Box -->
+          <div class="oe_button_box" name="button_box">
+            <button type="object"
+                    name="action_view_quotations"
+                    class="oe_stat_button"
+                    icon="fa-file-text-o">
+              <field name="quotation_count" widget="statinfo" string="الكوتيشن"/>
+            </button>
+          </div>
+
+          <group>
+            <group>
+              <field name="name" required="1"/>
+              <field name="partner_id"/>
+              <field name="company_id" groups="base.group_multi_company"/>
+              <field name="currency_id"/>
+            </group>
+            <group>
+              <field name="version_count" readonly="1"/>
+            </group>
+          </group>
+          <!-- تبويب الإصدارات والسطور يمكن إضافته لاحقًا -->
+        </sheet>
+      </form>
+    </field>
+  </record>
+</odoo>

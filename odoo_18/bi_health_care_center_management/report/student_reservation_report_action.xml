@@ -1,0 +1,22 @@
+<odoo>
+    <!-- QWeb PDF Report Definition -->
+    <report
+        id="report_student_reservation_pdf"
+        model="student.reservation"
+        string="Nurse Visit Report"
+        report_type="qweb-pdf"
+        name="bi_health_care_center_management.student_reservation_report_template"
+        file="bi_health_care_center_management.student_reservation_report_template"
+        print_report_name="'Nurse_Report_' + object.name"
+    />
+
+    <!-- Wizard Action -->
+    <record id="action_open_nurse_reservation_report_wizard" model="ir.actions.act_window">
+        <field name="name">Print Nurse Report</field>
+        <field name="res_model">nurse.reservation.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_student_reservation"/>
+    </record>
+</odoo>
+

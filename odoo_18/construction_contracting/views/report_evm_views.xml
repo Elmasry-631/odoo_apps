@@ -1,0 +1,35 @@
+<odoo>
+  <!-- Pivot: PV/EV/AC وCPI/SPI شهريًا -->
+  <record id="view_evm_pivot" model="ir.ui.view">
+    <field name="name">construction.evm.period.pivot</field>
+    <field name="model">construction.evm.period</field>
+    <field name="arch" type="xml">
+      <pivot string="EVM - شهري">
+        <field name="project_id" type="row"/>
+        <field name="period" interval="month" type="col"/>
+        <field name="pv" type="measure"/>
+        <field name="ev" type="measure"/>
+        <field name="ac" type="measure"/>
+        <field name="cpi" type="measure"/>
+        <field name="spi" type="measure"/>
+      </pivot>
+    </field>
+  </record>
+
+  <!-- Graph: S-Curves (تراكمي) -->
+  <record id="view_evm_graph" model="ir.ui.view">
+    <field name="name">construction.evm.period.graph</field>
+    <field name="model">construction.evm.period</field>
+    <field name="arch" type="xml">
+      <graph string="S-Curves" type="line">
+        <field name="period" interval="month"/>
+        <field name="pv_cum" type="measure"/>
+        <field name="ev_cum" type="measure"/>
+        <field name="ac_cum" type="measure"/>
+        <field name="project_id" type="row"/>
+      </graph>
+    </field>
+  </record>
+
+
+</odoo>

@@ -1,0 +1,64 @@
+<odoo>
+  <!-- List View -->
+  <record id="view_construction_contract_list" model="ir.ui.view">
+    <field name="name">construction.contract.list</field>
+    <field name="model">construction.contract</field>
+    <field name="arch" type="xml">
+      <list string="العقود">
+        <field name="name"/>
+        <field name="project_id"/>
+        <field name="partner_id"/>
+        <field name="state"/>
+        <field name="retention_rate"/>
+        <field name="advance_percent"/>
+        <field name="ld_cap_percent"/>
+        <button name="action_activate_contract" string="تفعيل" type="object" class="btn-primary"
+                invisible = "state != 'draft'"/>
+        <button name="action_close_contract" string="إغلاق" type="object"
+                invisible = "state != 'active'"/>
+      </list>
+    </field>
+  </record>
+
+  <!-- Form View -->
+  <record id="view_construction_contract_form" model="ir.ui.view">
+    <field name="name">construction.contract.form</field>
+    <field name="model">construction.contract</field>
+    <field name="arch" type="xml">
+      <form string="العقد">
+        <header>
+          <button name="action_activate_contract" string="تفعيل" type="object" class="oe_highlight"
+                  invisible = "state != 'draft'"/>
+          <button name="action_close_contract" string="إغلاق" type="object"
+                  invisible = "state != 'active'"/>
+          <field name="state" widget="statusbar" statusbar_visible="draft,active,closed"/>
+        </header>
+        <sheet>
+          <group>
+            <group>
+              <field name="name" required="1"/>
+              <field name="company_id" groups="base.group_multi_company"/>
+              <field name="project_id" required="1"/>
+              <field name="partner_id" required="1"/>
+              <field name="currency_id" required="1" readonly="1"/>
+            </group>
+            <group string="سياسات (قبل الضريبة)">
+              <field name="retention_rate" invisible = "state != 'draft'"/>
+              <field name="advance_percent" invisible = "state != 'draft'"/>
+              <field name="advance_recovery_ipcs" invisible = "state != 'draft'"/>
+              <field name="ld_rate_per_day" invisible = "state != 'draft'"/>
+              <field name="ld_cap_percent" invisible = "state != 'draft'"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- Window Action -->
+  <record id="action_contracts" model="ir.actions.act_window">
+    <field name="name">العقود</field>
+    <field name="res_model">construction.contract</field>
+    <field name="view_mode">list,form</field>
+  </record>
+</odoo>

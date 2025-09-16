@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_stock_movement" model="ir.actions.report">
+        <field name="name">Stock Movement Report</field>
+        <field name="model">stock.movement.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">stock_valuation_report_ex.stock_movement_report_template</field>
+        <field name="report_file">stock_valuation_report_ex.stock_movement_report_template</field>
+        <field name="print_report_name">'Stock Movement - %s' % (object.date_from)</field>
+        <field name="binding_model_id" ref="model_stock_movement_report_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="stock_movement_report_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2 class="text-center">Stock Movement Report</h2>
+
+                    <div class="row mt32 mb32">
+                        <div class="col-6">
+                            <strong>From:</strong> <span t-esc="data.get('date_from')" t-options='{"widget": "date"}'/>
+                            <br/>
+                            <strong>To:</strong> <span t-esc="data.get('date_to')" t-options='{"widget": "date"}'/>
+                        </div>
+                        <div class="col-6 text-right">
+                           <strong>Category:</strong> <span t-esc="data.get('category_name')"/>
+                        </div>
+                    </div>
+
+                    <t t-foreach="records" t-as="record">
+                        <div class="mt-4" style="page-break-inside: avoid;">
+                            <h3 style="background-color: #eee; padding: 8px; border-radius: 4px;">
+                                <t t-esc="record.product.display_name"/>
+                            </h3>
+
+                            <table class="table table-sm table-bordered">
+                                <thead>
+                                    <tr style="background-color: #343a40; color: white;">
+                                        <th style="width: 12%;">Date</th>
+                                        <th>Movement</th>
+                                        <th>Reference</th>
+                                        <th>MT No</th>
+                                        <th class="text-right" style="width: 10%;">In Qty</th>
+                                        <th class="text-right" style="width: 10%;">Out Qty</th>
+                                        <th class="text-right" style="width: 12%;">Price</th>
+                                        <th class="text-right" style="width: 13%;">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="font-weight-bold table-info">
+                                        <td colspan="4">Opening Balance</td>
+                                        <td class="text-right" colspan="3">Qty: <t t-esc="'%.2f' % record.opening_qty"/></td>
+                                        <td class="text-right"><t t-esc="record.opening_total" t-options="{'widget': 'monetary', 'display_currency': record.currency}"/></td>
+                                    </tr>
+
+                                    <t t-foreach="record.lines" t-as="line">
+                                        <tr>
+                                            <td><span t-esc="line.date" t-options='{"widget": "date"}'/></td>
+                                            <td><span t-esc="line.movement_type"/></td>
+                                            <td><span t-esc="line.reference"/></td>
+                                            <td><span t-esc="line.mtno"/></td>
+                                            <td class="text-right"><span t-if="line.in_qty" style="color: green;" t-esc="'%.2f' % line.in_qty"/></td>
+                                            <td class="text-right"><span t-if="line.out_qty" style="color: red;" t-esc="'%.2f' % line.out_qty"/></td>
+                                            <td class="text-right"><span t-esc="line.price" t-options="{'widget': 'monetary', 'display_currency': record.currency}"/></td>
+                                            <td class="text-right"><span t-esc="line.total" t-options="{'widget': 'monetary', 'display_currency': record.currency}"/></td>
+                                        </tr>
+                                    </t>
+
+                                    <tr class="font-weight-bold table-secondary" style="border-top: 2px solid black;">
+                                        <td colspan="4">Closing Balance</td>
+                                        <td class="text-right" colspan="3">Qty: <t t-esc="'%.2f' % record.closing_qty"/></td>
+                                        <td class="text-right"><t t-esc="record.closing_total" t-options="{'widget': 'monetary', 'display_currency': record.currency}"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                    <p t-if="not records">
+                        There are no movements to display for the selected criteria.
+                    </p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

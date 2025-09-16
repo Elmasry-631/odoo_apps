@@ -1,0 +1,95 @@
+<odoo>
+    <!-- Workers list View -->
+    <record id="view_recruitment_worker_list" model="ir.ui.view">
+        <field name="name">recruitment.worker.list</field>
+        <field name="model">hr.recruitment.worker</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="worker_id"/>
+                <field name="job_title_id"/>
+                <field name="nationality_id"/>
+                <field name="languages_id"/>
+                <field name="experience_years_id"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Workers Form View -->
+    <record id="view_recruitment_worker_form" model="ir.ui.view">
+        <field name="name">recruitment.worker.form</field>
+        <field name="model">hr.recruitment.worker</field>
+        <field name="arch" type="xml">
+            <form string="Worker">
+                <sheet>
+                    <group>
+                        <field name="worker_id"/>
+                        <field name="job_title_id"/>
+                        <field name="nationality_id"/>
+                        <field name="id_number_id"/>
+                        <field name="languages_id"/>
+                        <field name="experience_years_id"/>
+                        <field name="skills_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Documents">
+                            <field name="document_ids">
+                                <list editable="bottom">
+                                    <field name="worker_id"/>
+                                    <field name="file" filename="file_name"/>
+                                    <field name="file_name" invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Job Orders">
+                            <group>
+                                <field name="job_order_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_workers_tree" model="ir.ui.view">
+        <field name="name">workers.tree</field>
+        <field name="model">workers</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="worker"/>
+                <field name="nationality"/>
+            </list>
+        </field>
+    </record>
+
+<record id="view_workers_form" model="ir.ui.view">
+    <field name="name">workers.form</field>
+    <field name="model">workers</field>
+    <field name="arch" type="xml">
+        <form string="Worker">
+            <sheet>
+                <group>
+                    <group>
+                        <field name="worker"/>
+                        <field name="nationality"/>
+                        <field name="id_number"/>
+                        <field name="job_title"/>
+                        <field name="experience_years"/>
+                    </group>
+                    <group>
+                        <field name="skills"/>
+                        <field name="languages_ids"/>
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+
+    <!-- Menu & Action -->
+
+
+</odoo>

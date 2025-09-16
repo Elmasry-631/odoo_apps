@@ -1,0 +1,25 @@
+<odoo>
+    <record id="view_whatsapp_log_list" model="ir.ui.view">
+        <field name="name">whatsapp.log.list</field>
+        <field name="model">whatsapp.log</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="create_date"/>
+                <field name="res_model"/>
+                <field name="res_id"/>
+                <field name="partner_id"/>
+                <field name="phone"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="action_whatsapp_log" model="ir.actions.act_window">
+        <field name="name">WhatsApp Logs</field>
+        <field name="res_model">whatsapp.log</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_whatsapp_root" name="WhatsApp" sequence="10"/>
+    <menuitem id="menu_whatsapp_log" name="Logs" parent="menu_whatsapp_root" action="action_whatsapp_log"/>
+</odoo>
